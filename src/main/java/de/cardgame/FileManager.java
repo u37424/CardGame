@@ -4,6 +4,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 public class FileManager {
+    //Directory der Kartenbilder
     private static String CARD_IMG_DIR = "";
 
     public static boolean findDirectory(String dir) {

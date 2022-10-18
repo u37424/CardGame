@@ -6,11 +6,15 @@ import java.util.LinkedList;
 public class Deck {
     private static final int DECK_SIZE = 52;
     private final LinkedList<Card> cards;
+
+    //Jedes Deck hat eine Referenz auf seine Spielfläche
     private final Table table;
 
     public Deck(Table table) {
         this.table = table;
         cards = new LinkedList<>();
+
+        //Erschafft neues Deck und mischt es durch
         createDeck();
         shuffle();
     }

@@ -1,11 +1,9 @@
 package de.cardgame;
 
-import javax.crypto.spec.PSource;
 import java.util.LinkedList;
-import java.util.List;
 
 public class Table {
-    private Deck DECK;
+    private static Deck DECK;
     private LinkedList<Card> dungeon = new LinkedList<>();
     private LinkedList<Card> activeRoom = new LinkedList<>();
     private Card leftRoom;
@@ -23,34 +21,87 @@ public class Table {
     private LinkedList<Dice> carrySpace = new LinkedList<>();
     private Dice scrollDice;
     private LinkedList<Dice> shieldDice = new LinkedList<>();
+    private int health;
+    private int lostHealth;
 
     public Table() {
         this.DECK = new Deck(this);
-        for (Card card : DECK.getCards()) {
-            this.dungeon.add(card);
-        }
+        traverseStack(this.dungeon, DECK.getCards());
         dicepool.add(new Dice());
         dicepool.add(new Dice());
         dicepool.add(new Dice());
         dicepool.add(new Dice());
         dicepool.add(new Dice());
         dicepool.add(new Dice());
+
         scrollDice = new Dice();
         shieldDice.add(new Dice());
         shieldDice.add(new Dice());
+
+        health = 41;
+        lostHealth = 0;
+
         setupTable();
+    }
+
+    public LinkedList<Card> getDungeon() {
+        return dungeon;
+    }
+
+    public Card getLeftRoom() {
+        return leftRoom;
+    }
+
+    public Card getRightRoom() {
+        return rightRoom;
     }
 
     private void setupTable() {
         leftRoom = dungeon.getFirst();
         dungeon.removeFirst();
+        leftRoom.flip();
+
         rightRoom = dungeon.getFirst();
         dungeon.removeFirst();
+        rightRoom.flip();
+
         carrySpace.add(dicepool.getFirst());
         carrySpace.getFirst().setFace(3);
         dicepool.removeFirst();
-        System.out.println("Left "+leftRoom);
-        System.out.println("Right "+rightRoom);
-        System.out.println("Carryspace "+carrySpace.getFirst());
+
+        System.out.println("Health " + health);
+        System.out.println("Left " + leftRoom);
+        System.out.println("Right " + rightRoom);
+        System.out.println("Carryspace " + carrySpace.getFirst());
+    }
+
+    public LinkedList<Card> getAllCards() {
+        LinkedList<Card> cards = new LinkedList<>();
+        traverseStack(cards, dungeon);
+        traverseStack(cards, activeRoom);
+        traverseStack(cards, gold);
+        traverseStack(cards, souls);
+        traverseStack(cards, trash);
+        traverseStack(cards, backpack);
+        traverseStack(cards, items);
+        cards.add(leftRoom);
+        cards.add(rightRoom);
+        traverseField(cards, weapons);
+        traverseField(cards, shields);
+        return cards;
+    }
+
+    private void traverseField(LinkedList<Card> cards, Card[] weapons) {
+        if (weapons.length != 0) {
+            for (int i = 0; i < weapons.length; i++) {
+                if (weapons[i] != null) cards.add(weapons[i]);
+            }
+        }
+    }
+
+    private void traverseStack(LinkedList<Card> cards, LinkedList<Card> position) {
+        for (Card c : position) {
+            cards.add(c);
+        }
     }
 }

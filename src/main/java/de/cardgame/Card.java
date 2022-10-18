@@ -6,16 +6,49 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public class Card {
+    //Jede Karte hat eine Farbe und einen Wert
     private final Suit SUIT;
     private final Value VALUE;
+
+    private boolean visible;
+
+    //Jede Karte verweist auf sein erstellendes Deck
     private final Deck deck;
+
+    //Setzen der Kartenrückseite
+    private static BufferedImage back;
+
+    static {
+        if (FileManager.findDirectory(FileManager.getCardImgDir())) {
+            String path = FileManager.getCardImgDir();
+            if (FileManager.findFile(path+"/C_BACK.jpg")) {
+                path += "/C_BACK.jpg";
+            } else if (FileManager.findFile(path+"/C_BACK.png")) {
+                path += "/C_BACK.jppng";
+            } else {
+                System.err.println("No Back Image Found.");
+            }
+            try {
+                BufferedImage img = javax.imageio.ImageIO.read(new File(path));
+                back = img;
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            System.err.println("No Directory for Backside image found!");
+        }
+    }
+
+    //Jede Karte hat ein assoziiertes Bild
     private BufferedImage image;
 
     public Card(Suit suit, Value value, Deck deck) {
         this.SUIT = suit;
         this.VALUE = value;
         this.deck = deck;
-        if(!setPng()) System.err.println("Image for "+getVALUE()+" "+getSUIT() +" not found!");
+        this.visible = false;
+        //Setzt das Bild der Karte
+        setImg();
     }
 
     public Suit getSUIT() {
@@ -26,17 +59,37 @@ public class Card {
         return VALUE;
     }
 
+    public boolean isVisible() {
+        return visible;
+    }
+
+    public void setVisible(boolean visible) {
+        this.visible = visible;
+    }
+
     public BufferedImage getImage() {
         return image;
     }
 
-    public boolean setPng() {
+    public static BufferedImage getBack() {
+        return back;
+    }
+
+    public boolean setImg() {
+        //Finde Directory
         if (!FileManager.findDirectory(FileManager.getCardImgDir())) {
             System.err.println("Cannot find Card Image Folder!");
             return false;
         }
+        //Finde konkrete File
         String path = findIMGFile();
-        if (path == null || path == "") return false;
+        if (path == null || path == "") {
+            //SUPPRESSED WARNING!!!!!!!!!
+            //System.err.println("Image for "+getVALUE()+" "+getSUIT() +" not found!");
+            return false;
+        }
+
+        //Image Laden
         try {
             BufferedImage img = javax.imageio.ImageIO.read(new File(path));
             this.image = img;
@@ -58,6 +111,11 @@ public class Card {
 
     @Override
     public String toString() {
-        return getSUIT().getSymbol()+getVALUE().getSymbol();
+        return getSUIT().getSymbol() + getVALUE().getSymbol();
+    }
+
+    public void flip() {
+        if(isVisible()) setVisible(false);
+        else setVisible(true);
     }
 }
