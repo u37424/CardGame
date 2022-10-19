@@ -13,25 +13,26 @@ public class Window extends JFrame {
 
     private static final int FRAME_SIZE_X = (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth();
     private static final int FRAME_SIZE_Y = (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight();
-    private final int FRAME_CENTER_X = FRAME_SIZE_X/2;
-    private final int FRAME_CENTER_Y = FRAME_SIZE_Y/2;
     private static final Color BACKGROUND = Color.BLACK;
     private static final int CARD_WIDTH = 110;
     private static final int CARD_HEIGHT = 150;
     private MouseWindowHandler mouse;
     private MainKeyListener keys;
     private final Table playground;
+    private FieldPositions pos;
+
 
     public Window(Table table) {
         setSize(FRAME_SIZE_X, FRAME_SIZE_Y);
-        setResizable(false);
+        setResizable(true);
         setTitle("LEGEND v.0.1");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setExtendedState(JFrame.MAXIMIZED_BOTH);
+       // setExtendedState(JFrame.MAXIMIZED_BOTH);
         setBackground(Color.BLACK);
         this.setVisible(true);
         setBackground(BACKGROUND);
         this.playground = table;
+        pos = new FieldPositions(this);
     }
 
     /**
@@ -42,29 +43,43 @@ public class Window extends JFrame {
     @Override
     public void paint(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
-        drawDungeon(g2d);
-        drawOpenRooms(g2d);
+        g2d.clearRect(0, 0, (int)getSize().getWidth(), (int)getSize().getHeight());
+        if(playground.getDungeon().getSize() > 0) drawDungeon(g2d);
+        if(playground.getLeftRoom() != null) drawLeftRoom(g2d);
+        if(playground.getRightRoom()!= null) drawRightRoom(g2d);
+        if(playground.getActiveRoom().getSize() != 0) drawActive(g2d);
+        if(playground.getShop().getSize() != 0) drawShop(g2d);
         //drawAll(g2d);
     }
 
-    private void drawDungeon(Graphics2D g2d) {
-        int dX = FRAME_CENTER_X- CARD_WIDTH/2;
-        int dY = getInsets().top+10;
-        BufferedImage img = playground.getDungeon().getFirst().getFacingSide();
+    private void drawShop(Graphics2D g2d) {
+        BufferedImage img = playground.getShop().getLast().getFacingSide();
         img = rotateImageByDegrees(img, 90);
-        g2d.drawImage(img, dX, dY, CARD_WIDTH, CARD_HEIGHT, this);
+        g2d.drawImage(img, pos.getShopX(), pos.getShopY(), CARD_WIDTH, CARD_HEIGHT, this);
     }
 
-    private void drawOpenRooms(Graphics2D g2d) {
-        int dX = (FRAME_CENTER_X- CARD_WIDTH/2)-CARD_WIDTH-10;
-        int dY = getInsets().top+10;
+    private void drawActive(Graphics2D g2d) {
+        BufferedImage img = playground.getActiveRoom().getLast().getFacingSide();
+        img = rotateImageByDegrees(img, 90);
+        g2d.drawImage(img, pos.getActiveRoomX(), pos.getActiveRoomY(), CARD_WIDTH, CARD_HEIGHT, this);
+    }
+
+    private void drawDungeon(Graphics2D g2d) {
+        BufferedImage img = playground.getDungeon().getFirst().getFacingSide();
+        img = rotateImageByDegrees(img, 90);
+        g2d.drawImage(img, pos.getDungeonX(), pos.getDungeonY(), CARD_WIDTH, CARD_HEIGHT, this);
+    }
+
+    private void drawLeftRoom(Graphics2D g2d) {
         BufferedImage img = playground.getLeftRoom().getFacingSide();
         img = rotateImageByDegrees(img, 90);
-        g2d.drawImage(img, dX, dY, CARD_WIDTH, CARD_HEIGHT, this);
-        dX = (FRAME_CENTER_X- CARD_WIDTH/2)+CARD_WIDTH+10;
-        img = playground.getRightRoom().getFacingSide();
+        g2d.drawImage(img, pos.getLeftRoomX(), pos.getLeftRoomY(), CARD_WIDTH, CARD_HEIGHT, this);
+    }
+
+    private void drawRightRoom(Graphics2D g2d) {
+        BufferedImage img = playground.getRightRoom().getFacingSide();
         img = rotateImageByDegrees(img, 90);
-        g2d.drawImage(img, dX, dY, CARD_WIDTH, CARD_HEIGHT, this);
+        g2d.drawImage(img, pos.getRightRoomX(), pos.getRightRoomY(), CARD_WIDTH, CARD_HEIGHT, this);
     }
 
     private void drawAll(Graphics2D g2d) {
@@ -123,5 +138,25 @@ public class Window extends JFrame {
     public void setKeyListener(MainKeyListener keys) {
         addKeyListener(keys);
         this.keys = keys;
+    }
+
+    public int getFrameSizeX() {
+        return FRAME_SIZE_X;
+    }
+
+    public int getFrameSizeY() {
+        return FRAME_SIZE_Y;
+    }
+
+    public int getCardHeight() {
+        return CARD_HEIGHT;
+    }
+
+    public int getCardWidth() {
+        return CARD_WIDTH;
+    }
+
+    public FieldPositions getPos() {
+        return pos;
     }
 }

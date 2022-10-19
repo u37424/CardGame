@@ -1,5 +1,6 @@
 package de.cardgame;
 
+import de.cardgame.Window.FieldPositions;
 import de.cardgame.Zones.*;
 
 import java.util.LinkedList;
@@ -124,6 +125,14 @@ public class Table {
 
     public int getLostHealth() {
         return lostHealth;
+    }
+
+    public void setLeftRoom(Card leftRoom) {
+        this.leftRoom = leftRoom;
+    }
+
+    public void setRightRoom(Card rightRoom) {
+        this.rightRoom = rightRoom;
     }
 
     private void setupTable() {

@@ -1,5 +1,7 @@
 package de.cardgame.Zones;
 
+import de.cardgame.Card;
+
 import java.util.LinkedList;
 
 public abstract class Zone<T> {
@@ -61,5 +63,17 @@ public abstract class Zone<T> {
         if(isHasLimit() && getContent().size() >=getLimit()) return false;
         getContent().add(e);
         return true;
+    }
+
+    public int getSize() {
+        return getContent().size();
+    }
+
+    public T getLast(){
+        return getContent().getLast();
+    }
+
+    public void removeLast(){
+        getContent().removeLast();
     }
 }
