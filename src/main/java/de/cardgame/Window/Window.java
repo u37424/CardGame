@@ -1,6 +1,7 @@
 package de.cardgame.Window;
 
 import de.cardgame.Card;
+import de.cardgame.Dice;
 import de.cardgame.Table;
 
 import javax.swing.*;
@@ -16,6 +17,8 @@ public class Window extends JFrame {
     private static final Color BACKGROUND = Color.BLACK;
     private static final int CARD_WIDTH = 110;
     private static final int CARD_HEIGHT = 150;
+    private static final int DICE_WIDTH = 35;
+    private static final int DICE_HEIGHT = 35;
     private MouseWindowHandler mouse;
     private MainKeyListener keys;
     private final Table playground;
@@ -27,7 +30,7 @@ public class Window extends JFrame {
         setResizable(true);
         setTitle("LEGEND v.0.1");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-       // setExtendedState(JFrame.MAXIMIZED_BOTH);
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
         setBackground(Color.BLACK);
         this.setVisible(true);
         setBackground(BACKGROUND);
@@ -49,7 +52,12 @@ public class Window extends JFrame {
         if(playground.getRightRoom()!= null) drawRightRoom(g2d);
         if(playground.getActiveRoom().getSize() != 0) drawActive(g2d);
         if(playground.getShop().getSize() != 0) drawShop(g2d);
+        if(playground.getDicePool().getSize() != 0) drawDicePool(g2d);
         //drawAll(g2d);
+    }
+
+    private void drawDicePool(Graphics2D g2d) {
+
     }
 
     private void drawShop(Graphics2D g2d) {
