@@ -1,27 +1,30 @@
-package de.cardgame;
+package de.cardgame.Window;
+
+import de.cardgame.Card;
+import de.cardgame.Table;
 
 import javax.swing.*;
-import javax.swing.plaf.basic.BasicTreeUI;
 import java.awt.*;
-import java.awt.event.KeyListener;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.util.LinkedList;
 
 public class Window extends JFrame {
 
-    private final int FRAME_SIZE_X = 1920;
-    private final int FRAME_SIZE_Y = 1080;
+    private static final int FRAME_SIZE_X = (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth();
+    private static final int FRAME_SIZE_Y = (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight();
+    private final int FRAME_CENTER_X = FRAME_SIZE_X/2;
+    private final int FRAME_CENTER_Y = FRAME_SIZE_Y/2;
     private static final Color BACKGROUND = Color.BLACK;
-    private static final int CARD_WIDTH = 80+10;
-    private static final int CARD_HEIGHT = 110+20;
+    private static final int CARD_WIDTH = 110;
+    private static final int CARD_HEIGHT = 150;
     private MouseWindowHandler mouse;
     private MainKeyListener keys;
     private final Table playground;
 
     public Window(Table table) {
         setSize(FRAME_SIZE_X, FRAME_SIZE_Y);
-        setResizable(true);
+        setResizable(false);
         setTitle("LEGEND v.0.1");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -39,7 +42,29 @@ public class Window extends JFrame {
     @Override
     public void paint(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
-        drawAll(g2d);
+        drawDungeon(g2d);
+        drawOpenRooms(g2d);
+        //drawAll(g2d);
+    }
+
+    private void drawDungeon(Graphics2D g2d) {
+        int dX = FRAME_CENTER_X- CARD_WIDTH/2;
+        int dY = getInsets().top+10;
+        BufferedImage img = playground.getDungeon().getFirst().getFacingSide();
+        img = rotateImageByDegrees(img, 90);
+        g2d.drawImage(img, dX, dY, CARD_WIDTH, CARD_HEIGHT, this);
+    }
+
+    private void drawOpenRooms(Graphics2D g2d) {
+        int dX = (FRAME_CENTER_X- CARD_WIDTH/2)-CARD_WIDTH-10;
+        int dY = getInsets().top+10;
+        BufferedImage img = playground.getLeftRoom().getFacingSide();
+        img = rotateImageByDegrees(img, 90);
+        g2d.drawImage(img, dX, dY, CARD_WIDTH, CARD_HEIGHT, this);
+        dX = (FRAME_CENTER_X- CARD_WIDTH/2)+CARD_WIDTH+10;
+        img = playground.getRightRoom().getFacingSide();
+        img = rotateImageByDegrees(img, 90);
+        g2d.drawImage(img, dX, dY, CARD_WIDTH, CARD_HEIGHT, this);
     }
 
     private void drawAll(Graphics2D g2d) {
@@ -47,9 +72,9 @@ public class Window extends JFrame {
         int y = getInsets().top;
         LinkedList<Card> cards = playground.getAllCards();
         for (Card c : cards) {
-            BufferedImage img = c.isVisible() ? c.getImage() : c.getBack();
+            BufferedImage img = c.getFacingSide();
             img = rotateImageByDegrees(img, 90);
-            g2d.drawImage(img, x,y, CARD_WIDTH, CARD_HEIGHT, this);
+            g2d.drawImage(img, x, y, CARD_WIDTH, CARD_HEIGHT, this);
             x += CARD_WIDTH + 5;
             if (x > getWidth() - CARD_WIDTH) {
                 x = getInsets().left;

@@ -1,4 +1,4 @@
-package de.cardgame;
+package de.cardgame.Window;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;

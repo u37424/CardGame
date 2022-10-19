@@ -68,4 +68,8 @@ public class Deck {
         if (val == 4) return Suit.CLUBS;
         else return null;
     }
+
+    public static int getDeckSize() {
+        return DECK_SIZE;
+    }
 }

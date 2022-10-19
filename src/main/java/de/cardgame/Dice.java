@@ -30,6 +30,10 @@ public class Dice {
         updateSymbol();
     }
 
+    public int getFace() {
+        return face;
+    }
+
     @Override
     public String toString() {
         return symbol;

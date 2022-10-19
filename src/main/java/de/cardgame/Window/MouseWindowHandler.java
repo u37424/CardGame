@@ -1,11 +1,19 @@
-package de.cardgame;
+package de.cardgame.Window;
 
+import de.cardgame.Table;
+
+import java.awt.Window;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public class MouseWindowHandler extends MouseAdapter {
 
-    public MouseWindowHandler() {
+    private final Table table;
+    private Window window;
+
+    public MouseWindowHandler(Table table, Window window) {
+        this.table = table;
+        this.window = window;
     }
 
     /**

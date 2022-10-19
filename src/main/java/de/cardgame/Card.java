@@ -19,8 +19,8 @@ public class Card {
     private static BufferedImage back;
 
     static {
-        if (FileManager.findDirectory(FileManager.getCardImgDir())) {
-            String path = FileManager.getCardImgDir();
+        if (FileManager.findDirectory(FileManager.getImgDir())) {
+            String path = FileManager.getImgDir();
             if (FileManager.findFile(path+"/C_BACK.jpg")) {
                 path += "/C_BACK.jpg";
             } else if (FileManager.findFile(path+"/C_BACK.png")) {
@@ -77,7 +77,7 @@ public class Card {
 
     public boolean setImg() {
         //Finde Directory
-        if (!FileManager.findDirectory(FileManager.getCardImgDir())) {
+        if (!FileManager.findDirectory(FileManager.getImgDir())) {
             System.err.println("Cannot find Card Image Folder!");
             return false;
         }
@@ -102,7 +102,7 @@ public class Card {
     }
 
     private String findIMGFile() {
-        String path = FileManager.getCardImgDir() + "/C_" + getSUIT() + "_" + getVALUE();
+        String path = FileManager.getImgDir() + "/C_" + getSUIT() + "_" + getVALUE();
         if (FileManager.findFile(path + ".jpg")) return path + ".jpg";
         else if ((FileManager.findFile(path + ".png"))) return path + ".png";
         else return "";
@@ -117,5 +117,9 @@ public class Card {
     public void flip() {
         if(isVisible()) setVisible(false);
         else setVisible(true);
+    }
+
+    public BufferedImage getFacingSide() {
+        return isVisible() ? getImage() : getBack();
     }
 }

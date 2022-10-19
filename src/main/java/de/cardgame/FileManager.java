@@ -12,11 +12,11 @@ public class FileManager {
         else return false;
     }
 
-    public static String getCardImgDir() {
+    public static String getImgDir() {
         return CARD_IMG_DIR;
     }
 
-    public static void setCardImagesDir(String pngDir) {
+    public static void setImagesDir(String pngDir) {
         if(findDirectory(pngDir)) CARD_IMG_DIR = pngDir;
         else System.err.println("Cannot set Card Folder.");
     }
