@@ -24,8 +24,7 @@ public class Table {
     private CarrySpace carrySpace;
     private Dice scrollDice;
     private ShieldDice shieldDice;
-    private int health;
-    private int lostHealth;
+    private Health health;
 
     public Table() {
         this.DECK = new Deck(this);
@@ -44,9 +43,7 @@ public class Table {
         scrollDice = new Dice();
         carrySpace = new CarrySpace(6);
         shieldDice = new ShieldDice(2);
-
-        health = 41;
-        lostHealth = 0;
+        health = new Health();
 
         setupTable();
     }
@@ -119,12 +116,8 @@ public class Table {
         return shieldDice;
     }
 
-    public int getHealth() {
+    public Health getHealth() {
         return health;
-    }
-
-    public int getLostHealth() {
-        return lostHealth;
     }
 
     public void setLeftRoom(Card leftRoom) {

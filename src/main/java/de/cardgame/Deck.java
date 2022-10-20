@@ -27,7 +27,7 @@ public class Deck {
         int val = 2;
         int suit = 1;
         while (cards.size() < DECK_SIZE) {
-            Card newCard = new Card(getSuit(suit), getValue(val++), this);
+            Card newCard = new Card(getSuit(suit), getValue(val++));
             cards.add(newCard);
             if (val == 15) {
                 val = 2;

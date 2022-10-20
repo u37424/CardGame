@@ -63,4 +63,12 @@ public class FieldPositions {
     public int getShopY() {
         return getDungeonY();
     }
+
+    public int getHealthX() {
+        return MIN_DISTANCE;
+    }
+
+    public int getHealthY() {
+        return w.getFrameSizeY()-w.getCardHeight()-MIN_DISTANCE;
+    }
 }

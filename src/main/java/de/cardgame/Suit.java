@@ -4,7 +4,8 @@ import java.awt.*;
 
 public enum Suit {
     HEARTS(Color.RED, "Enemy", "\u2661"), DIAMONDS(Color.RED, "Resource", "\u2662"),
-    SPADES(Color.BLACK,"Weapon", "\u2660"), CLUBS(Color.BLACK,"Empty Room", "\u2663");
+    SPADES(Color.BLACK,"Weapon", "\u2660"), CLUBS(Color.BLACK,"Empty Room", "\u2663"),
+    HEALTH(Color.RED, "Health", "H"), LOST_HEALTH(Color.LIGHT_GRAY, "Lost Health", "LH");
 
     private final Color color;
     private final String function;

@@ -53,7 +53,14 @@ public class Window extends JFrame {
         if(playground.getActiveRoom().getSize() != 0) drawActive(g2d);
         if(playground.getShop().getSize() != 0) drawShop(g2d);
         if(playground.getDicePool().getSize() != 0) drawDicePool(g2d);
+        if(playground.getHealth().hasHealth()) drawHealth(g2d);
         //drawAll(g2d);
+    }
+
+    private void drawHealth(Graphics2D g2d) {
+        BufferedImage img = playground.getHealth().getHealthCard().getImage();
+        img = rotateImageByDegrees(img, 90);
+        g2d.drawImage(img, pos.getHealthX(), pos.getHealthY(), CARD_WIDTH, CARD_HEIGHT, this);
     }
 
     private void drawDicePool(Graphics2D g2d) {

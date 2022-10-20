@@ -12,9 +12,6 @@ public class Card {
 
     private boolean visible;
 
-    //Jede Karte verweist auf sein erstellendes Deck
-    private final Deck deck;
-
     //Setzen der Kartenrückseite
     private static BufferedImage back;
 
@@ -42,10 +39,9 @@ public class Card {
     //Jede Karte hat ein assoziiertes Bild
     private BufferedImage image;
 
-    public Card(Suit suit, Value value, Deck deck) {
+    public Card(Suit suit, Value value) {
         this.SUIT = suit;
         this.VALUE = value;
-        this.deck = deck;
         this.visible = false;
         //Setzt das Bild der Karte
         setImg();
@@ -102,7 +98,9 @@ public class Card {
     }
 
     private String findIMGFile() {
-        String path = FileManager.getImgDir() + "/C_" + getSUIT() + "_" + getVALUE();
+        String path = "";
+        if(this.getSUIT().equals(Suit.HEALTH)) path = FileManager.getImgDir() + "/C_" + getSUIT();
+        else path = FileManager.getImgDir() + "/C_" + getSUIT() + "_" + getVALUE();
         if (FileManager.findFile(path + ".jpg")) return path + ".jpg";
         else if ((FileManager.findFile(path + ".png"))) return path + ".png";
         else return "";
