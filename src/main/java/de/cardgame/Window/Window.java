@@ -15,8 +15,8 @@ public class Window extends JFrame {
     private static final int FRAME_SIZE_X = (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth();
     private static final int FRAME_SIZE_Y = (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight();
     private static final Color BACKGROUND = Color.BLACK;
-    private static final int CARD_WIDTH = 110;
-    private static final int CARD_HEIGHT = 150;
+    private static final int CARD_WIDTH = 138;
+    private static final int CARD_HEIGHT = 190;
     private static final int DICE_WIDTH = 35;
     private static final int DICE_HEIGHT = 35;
     private MouseWindowHandler mouse;
@@ -30,6 +30,7 @@ public class Window extends JFrame {
         setResizable(true);
         setTitle("LEGEND v.0.1");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setUndecorated(true);
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         setBackground(Color.BLACK);
         this.setVisible(true);
@@ -52,19 +53,25 @@ public class Window extends JFrame {
         if(playground.getRightRoom()!= null) drawRightRoom(g2d);
         if(playground.getActiveRoom().getSize() != 0) drawActive(g2d);
         if(playground.getShop().getSize() != 0) drawShop(g2d);
-        if(playground.getDicePool().getSize() != 0) drawDicePool(g2d);
         if(playground.getHealth().hasHealth()) drawHealth(g2d);
+        if(playground.getHealth().hasLost()) drawLost(g2d);
         //drawAll(g2d);
+    }
+
+    private void drawLost(Graphics2D g2d) {
+        BufferedImage img = playground.getHealth().getLostCard().getImage();
+        img = rotateImageByDegrees(img, 90);
+        g2d.drawImage(img, pos.getLostX(), pos.getLostY(), CARD_WIDTH, CARD_HEIGHT, this);
     }
 
     private void drawHealth(Graphics2D g2d) {
         BufferedImage img = playground.getHealth().getHealthCard().getImage();
         img = rotateImageByDegrees(img, 90);
         g2d.drawImage(img, pos.getHealthX(), pos.getHealthY(), CARD_WIDTH, CARD_HEIGHT, this);
-    }
-
-    private void drawDicePool(Graphics2D g2d) {
-
+        g2d.setColor(Color.RED);
+        g2d.setFont(new Font("Courier New", Font.BOLD, 15));
+        g2d.drawString(Integer.toString(playground.getHealth().getHealthCards().size()),
+                pos.getHealthX()+getCardWidth()+5, pos.getHealthY()+10);
     }
 
     private void drawShop(Graphics2D g2d) {

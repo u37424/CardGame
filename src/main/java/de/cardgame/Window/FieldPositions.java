@@ -71,4 +71,12 @@ public class FieldPositions {
     public int getHealthY() {
         return w.getFrameSizeY()-w.getCardHeight()-MIN_DISTANCE;
     }
+
+    public int getLostX() {
+        return getHealthX();
+    }
+
+    public int getLostY() {
+        return getHealthY()-w.getCardHeight()-MIN_DISTANCE;
+    }
 }

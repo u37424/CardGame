@@ -137,11 +137,11 @@ public class Table {
         dungeon.removeFirst();
         rightRoom.flip();
 
-        carrySpace.add(dicePool.getFirst());
-        carrySpace.getFirst().setFace(3);
-        dicePool.removeFirst();
+        carrySpace.add(dicePool.getLast());
+        carrySpace.getLast().setFace(3);
+        dicePool.removeLast();
 
-        System.out.println("Health " + health);
+        System.out.println("Health " + health.getHealthCards().size());
         System.out.println("Carryspace " + carrySpace.getCarrySpace());
     }
 

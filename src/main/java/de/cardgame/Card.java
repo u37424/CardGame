@@ -18,9 +18,9 @@ public class Card {
     static {
         if (FileManager.findDirectory(FileManager.getImgDir())) {
             String path = FileManager.getImgDir();
-            if (FileManager.findFile(path+"/C_BACK.jpg")) {
+            if (FileManager.findFile(path + "/C_BACK.jpg")) {
                 path += "/C_BACK.jpg";
-            } else if (FileManager.findFile(path+"/C_BACK.png")) {
+            } else if (FileManager.findFile(path + "/C_BACK.png")) {
                 path += "/C_BACK.jppng";
             } else {
                 System.err.println("No Back Image Found.");
@@ -99,7 +99,8 @@ public class Card {
 
     private String findIMGFile() {
         String path = "";
-        if(this.getSUIT().equals(Suit.HEALTH)) path = FileManager.getImgDir() + "/C_" + getSUIT();
+        if (this.getSUIT().equals(Suit.HEALTH) || this.getSUIT().equals(Suit.HEALTH_LOST))
+            path = FileManager.getImgDir() + "/C_" + getSUIT();
         else path = FileManager.getImgDir() + "/C_" + getSUIT() + "_" + getVALUE();
         if (FileManager.findFile(path + ".jpg")) return path + ".jpg";
         else if ((FileManager.findFile(path + ".png"))) return path + ".png";
@@ -113,7 +114,7 @@ public class Card {
     }
 
     public void flip() {
-        if(isVisible()) setVisible(false);
+        if (isVisible()) setVisible(false);
         else setVisible(true);
     }
 

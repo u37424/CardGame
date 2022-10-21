@@ -1,8 +1,9 @@
 package de.cardgame.Zones;
 
 import de.cardgame.Card;
+import de.cardgame.Game;
 import de.cardgame.Suit;
-import de.cardgame.Value;
+import de.cardgame.Table;
 
 import java.util.LinkedList;
 
@@ -24,9 +25,44 @@ public class Health extends Zone<Card> {
     void setup() {
         this.healthCards = new LinkedList<>();
         this.lostCards = new LinkedList<>();
-        for (int i = 0; i <= 41; i++) {
+        for (int i = 0; i < 41; i++) {
             healthCards.add(new Card(Suit.HEALTH, null));
         }
+    }
+
+    public static void lose(Table table) {
+        Health h = table.getHealth();
+        int value = table.getActiveRoom().getLast().getVALUE().getValue();
+        int amount = calcTemporaryHitAmount(value);
+        for (int i = 0; i < amount; i++) {
+            if (h.healthCards.size() > 0) {
+                h.healthCards.removeFirst();
+                h.lostCards.add(new Card(Suit.HEALTH_LOST, null));
+            } else {
+                Game.end();
+            }
+        }
+        h.updateImg();
+    }
+
+    public static void gain(Table table) {
+        Health h = table.getHealth();
+        int amount = table.getActiveRoom().getLast().getVALUE().getValue();
+        for (int i = 0; i < amount; i++) {
+            if (h.lostCards.size() > 0) {
+                h.lostCards.removeLast();
+                h.healthCards.add(new Card(Suit.HEALTH, null));
+            }
+        }
+        h.updateImg();
+    }
+
+    private static int calcTemporaryHitAmount(int amount) {
+        int tempHitPoints = 0;
+        for (int i = amount - 2; i > 0; i -= 2) {
+            tempHitPoints += i;
+        }
+        return tempHitPoints;
     }
 
     public Card getHealthCard() {
@@ -37,34 +73,10 @@ public class Health extends Zone<Card> {
         return lostCards.getLast();
     }
 
-    public void lose(int amount) {
-        for (int i = 0; i < amount; i++) {
-            if (healthCards.size() < 0) {
-                healthCards.removeFirst();
-                lostCards.add(new Card(Suit.LOST_HEALTH, null));
-            } else {
-                System.out.println("Dead?");
-            }
-        }
-        updateImg();
-    }
-
-    public void get(int amount) {
-        for (int i = 0; i < amount; i++) {
-            if (lostCards.size() < 0) {
-                lostCards.removeFirst();
-                healthCards.add(new Card(Suit.HEALTH, null));
-            } else {
-                System.out.println("Full");
-            }
-        }
-        updateImg();
-    }
-
     void updateImg() {
-        this.healthCards.getFirst().setImg();
-        this.lostCards.getLast().setImg();
-        System.out.println("Health "+healthCards.size());
+        if (this.healthCards.size() > 0) this.healthCards.getFirst().setImg();
+        if (this.lostCards.size() > 0) this.lostCards.getLast().setImg();
+        System.out.println("Health " + healthCards.size());
     }
 
     public LinkedList<Card> getHealthCards() {
@@ -76,12 +88,12 @@ public class Health extends Zone<Card> {
     }
 
     public boolean hasHealth() {
-        if(healthCards.size() > 0) return true;
+        if (healthCards.size() > 0) return true;
         return false;
     }
 
-    public boolean hasLost(){
-        if(lostCards.size() > 0) return true;
+    public boolean hasLost() {
+        if (lostCards.size() > 0) return true;
         return false;
     }
 }

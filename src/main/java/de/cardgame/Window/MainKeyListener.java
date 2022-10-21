@@ -1,5 +1,6 @@
 package de.cardgame.Window;
 
+import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
@@ -27,7 +28,14 @@ public class MainKeyListener implements KeyListener {
      */
     @Override
     public void keyPressed(KeyEvent e) {
-
+        if (e.getKeyCode() == KeyEvent.VK_F11){
+            if(window.getState() == Frame.NORMAL){
+                window.setState(Frame.ICONIFIED);
+            }
+        }
+        if (e.getKeyCode() == KeyEvent.VK_F12){
+            window.dispose();
+        }
     }
 
     /**
