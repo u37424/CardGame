@@ -12,10 +12,10 @@ public class Shop extends Zone<Card> {
         super("Shop", limit);
     }
 
-    public static boolean putCardToShop(Table table) {
-        if (table.getDungeon().getSize() > 0) {
-            table.getShop().add(table.getDungeon().getFirst());
-            table.getDungeon().removeFirst();
+    public static boolean putCardToShop() {
+        if (Table.getDungeon().getSize() > 0) {
+            Table.getShop().add(Table.getDungeon().getLast());
+            Table.getDungeon().removeLast();
             return true;
         }
         return false;

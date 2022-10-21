@@ -16,12 +16,12 @@ public class Card {
     private static BufferedImage back;
 
     static {
-        if (FileManager.findDirectory(FileManager.getImgDir())) {
-            String path = FileManager.getImgDir();
+        if (FileManager.findDirectory(FileManager.getCardDir())) {
+            String path = FileManager.getCardDir();
             if (FileManager.findFile(path + "/C_BACK.jpg")) {
                 path += "/C_BACK.jpg";
             } else if (FileManager.findFile(path + "/C_BACK.png")) {
-                path += "/C_BACK.jppng";
+                path += "/C_BACK.png";
             } else {
                 System.err.println("No Back Image Found.");
             }
@@ -73,15 +73,14 @@ public class Card {
 
     public boolean setImg() {
         //Finde Directory
-        if (!FileManager.findDirectory(FileManager.getImgDir())) {
+        if (!FileManager.findDirectory(FileManager.getCardDir())) {
             System.err.println("Cannot find Card Image Folder!");
             return false;
         }
         //Finde konkrete File
         String path = findIMGFile();
         if (path == null || path == "") {
-            //SUPPRESSED WARNING!!!!!!!!!
-            //System.err.println("Image for "+getVALUE()+" "+getSUIT() +" not found!");
+            System.err.println("Image for "+getVALUE()+" "+getSUIT() +" not found!");
             return false;
         }
 
@@ -100,8 +99,8 @@ public class Card {
     private String findIMGFile() {
         String path = "";
         if (this.getSUIT().equals(Suit.HEALTH) || this.getSUIT().equals(Suit.HEALTH_LOST))
-            path = FileManager.getImgDir() + "/C_" + getSUIT();
-        else path = FileManager.getImgDir() + "/C_" + getSUIT() + "_" + getVALUE();
+            path = FileManager.getCardDir() + "/C_" + getSUIT();
+        else path = FileManager.getCardDir() + "/C_" + getSUIT() + "_" + getVALUE();
         if (FileManager.findFile(path + ".jpg")) return path + ".jpg";
         else if ((FileManager.findFile(path + ".png"))) return path + ".png";
         else return "";

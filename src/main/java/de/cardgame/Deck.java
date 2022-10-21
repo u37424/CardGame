@@ -7,11 +7,7 @@ public class Deck {
     private static final int DECK_SIZE = 52;
     private final LinkedList<Card> cards;
 
-    //Jedes Deck hat eine Referenz auf seine Spielfläche
-    private final Table table;
-
-    public Deck(Table table) {
-        this.table = table;
+    public Deck() {
         cards = new LinkedList<>();
 
         //Erschafft neues Deck und mischt es durch
@@ -38,10 +34,6 @@ public class Deck {
 
     public LinkedList<Card> getCards() {
         return cards;
-    }
-
-    public Table getTable() {
-        return table;
     }
 
     private Value getValue(int val) {

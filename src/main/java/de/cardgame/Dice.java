@@ -50,14 +50,13 @@ public class Dice {
 
     public boolean setImg() {
         //Finde Directory
-        if (!FileManager.findDirectory(FileManager.getImgDir())) {
+        if (!FileManager.findDirectory(FileManager.getDiceDir())) {
             System.err.println("Cannot find Dice Image Folder!");
             return false;
         }
         //Finde konkrete File
         String path = findIMGFile();
         if (path == null || path == "") {
-            //SUPPRESSED WARNING!!!!!!!!!
             System.err.println("Image for "+convertFace() +" not found!");
             return false;
         }
@@ -75,7 +74,7 @@ public class Dice {
     }
 
     private String findIMGFile() {
-        String path = FileManager.getImgDir() + "/D_" + convertFace();
+        String path = FileManager.getDiceDir() + "/D_" + convertFace();
         if (FileManager.findFile(path + ".jpg")) return path + ".jpg";
         else if ((FileManager.findFile(path + ".png"))) return path + ".png";
         else return "";

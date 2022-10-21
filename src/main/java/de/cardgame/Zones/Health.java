@@ -30,9 +30,9 @@ public class Health extends Zone<Card> {
         }
     }
 
-    public static void lose(Table table) {
-        Health h = table.getHealth();
-        int value = table.getActiveRoom().getLast().getVALUE().getValue();
+    public static void lose() {
+        Health h = Table.getHealth();
+        int value = Table.getActiveRoom().getLast().getVALUE().getValue();
         int amount = calcTemporaryHitAmount(value);
         for (int i = 0; i < amount; i++) {
             if (h.healthCards.size() > 0) {
@@ -45,9 +45,9 @@ public class Health extends Zone<Card> {
         h.updateImg();
     }
 
-    public static void gain(Table table) {
-        Health h = table.getHealth();
-        int amount = table.getActiveRoom().getLast().getVALUE().getValue();
+    public static void gain() {
+        Health h = Table.getHealth();
+        int amount = Table.getActiveRoom().getLast().getVALUE().getValue();
         for (int i = 0; i < amount; i++) {
             if (h.lostCards.size() > 0) {
                 h.lostCards.removeLast();

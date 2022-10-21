@@ -13,14 +13,13 @@ public class Main {
 
     public static void main(String[] args) {
         //Set Table
-        FileManager.setImagesDir("./Textures");
-        Table playground = new Table();
+        FileManager.setImagesDir("./Textures", "Cards", "Dice");
 
         //Set Frame
         mainWindowHandler = new MainWindowHandler();
         mainKeyListener = new MainKeyListener();
-        mainWindow = new Window(playground);
-        mouseWindowHandler= new MouseWindowHandler(playground, mainWindow);
+        mainWindow = new Window();
+        mouseWindowHandler= new MouseWindowHandler(mainWindow);
         mainKeyListener.setWindow(mainWindow);
         mainWindow.setMouseListener(mouseWindowHandler);
         mainWindow.setHandler(mainWindowHandler);

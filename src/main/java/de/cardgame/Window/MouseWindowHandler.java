@@ -8,11 +8,9 @@ import java.awt.event.MouseEvent;
 
 public class MouseWindowHandler extends MouseAdapter {
 
-    private final Table table;
     private Window window;
 
-    public MouseWindowHandler(Table table, Window window) {
-        this.table = table;
+    public MouseWindowHandler(Window window) {
         this.window = window;
     }
 
@@ -28,11 +26,11 @@ public class MouseWindowHandler extends MouseAdapter {
         int x = e.getX();
         int y = e.getY();
         if (isOnDungeon(x, y)) {
-            if(Dungeon.clickDungeon(table)) window.repaint();
+            if(Dungeon.clickDungeon()) window.repaint();
         } else if (isOnOpenLeft(x, y)) {
-            if(Dungeon.clickOpenLeft(table)) window.repaint();
+            if(Dungeon.clickOpenLeft()) window.repaint();
         } else if (isOnOpenRight(x, y)) {
-            if(Dungeon.clickOpenRight(table)) window.repaint();
+            if(Dungeon.clickOpenRight()) window.repaint();
         }
     }
 

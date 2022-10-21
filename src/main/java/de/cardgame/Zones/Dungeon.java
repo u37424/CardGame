@@ -14,41 +14,41 @@ public class Dungeon extends Zone<Card> {
         setup();
     }
 
-    public static boolean clickDungeon(Table table) {
-        if (table.getDungeon().getSize() > 0) {
-            table.getActiveRoom().add(table.getDungeon().getFirst());
-            table.getActiveRoom().getLast().flip();
-            table.getDungeon().removeFirst();
-            ActiveRoom.putDown(table);
+    public static boolean clickDungeon() {
+        if (Table.getDungeon().getSize() > 0) {
+            Table.getActiveRoom().add(Table.getDungeon().getLast());
+            Table.getActiveRoom().getLast().flip();
+            Table.getDungeon().removeLast();
+            ActiveRoom.putDown();
             return true;
         }
         return false;
     }
 
-    public static boolean clickOpenLeft(Table table) {
-        if (table.getLeftRoom() != null) {
-            table.getActiveRoom().add(table.getLeftRoom());
-            table.setLeftRoom(null);
-            ActiveRoom.putDown(table);
-            if(table.getDungeon().getSize() > 0) {
-                table.setLeftRoom(table.getDungeon().getFirst());
-                table.getLeftRoom().flip();
-                table.getDungeon().removeFirst();
+    public static boolean clickOpenLeft() {
+        if (Table.getLeftRoom() != null) {
+            Table.getActiveRoom().add(Table.getLeftRoom());
+            Table.setLeftRoom(null);
+            ActiveRoom.putDown();
+            if(Table.getDungeon().getSize() > 0) {
+                Table.setLeftRoom(Table.getDungeon().getLast());
+                Table.getLeftRoom().flip();
+                Table.getDungeon().removeLast();
             }
             return true;
         }
         return false;
     }
 
-    public static boolean clickOpenRight(Table table) {
-        if (table.getRightRoom() != null) {
-            table.getActiveRoom().add(table.getRightRoom());
-            table.setRightRoom(null);
-            ActiveRoom.putDown(table);
-            if(table.getDungeon().getSize() > 0) {
-                table.setRightRoom(table.getDungeon().getFirst());
-                table.getRightRoom().flip();
-                table.getDungeon().removeFirst();
+    public static boolean clickOpenRight() {
+        if (Table.getRightRoom() != null) {
+            Table.getActiveRoom().add(Table.getRightRoom());
+            Table.setRightRoom(null);
+            ActiveRoom.putDown();
+            if(Table.getDungeon().getSize() > 0) {
+                Table.setRightRoom(Table.getDungeon().getLast());
+                Table.getRightRoom().flip();
+                Table.getDungeon().removeLast();
             }
             return true;
         }

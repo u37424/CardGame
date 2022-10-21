@@ -21,11 +21,10 @@ public class Window extends JFrame {
     private static final int DICE_HEIGHT = 35;
     private MouseWindowHandler mouse;
     private MainKeyListener keys;
-    private final Table playground;
     private FieldPositions pos;
 
 
-    public Window(Table table) {
+    public Window() {
         setSize(FRAME_SIZE_X, FRAME_SIZE_Y);
         setResizable(true);
         setTitle("LEGEND v.0.1");
@@ -35,7 +34,6 @@ public class Window extends JFrame {
         setBackground(Color.BLACK);
         this.setVisible(true);
         setBackground(BACKGROUND);
-        this.playground = table;
         pos = new FieldPositions(this);
     }
 
@@ -48,58 +46,58 @@ public class Window extends JFrame {
     public void paint(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
         g2d.clearRect(0, 0, (int)getSize().getWidth(), (int)getSize().getHeight());
-        if(playground.getDungeon().getSize() > 0) drawDungeon(g2d);
-        if(playground.getLeftRoom() != null) drawLeftRoom(g2d);
-        if(playground.getRightRoom()!= null) drawRightRoom(g2d);
-        if(playground.getActiveRoom().getSize() != 0) drawActive(g2d);
-        if(playground.getShop().getSize() != 0) drawShop(g2d);
-        if(playground.getHealth().hasHealth()) drawHealth(g2d);
-        if(playground.getHealth().hasLost()) drawLost(g2d);
+        if(Table.getDungeon().getSize() > 0) drawDungeon(g2d);
+        if(Table.getLeftRoom() != null) drawLeftRoom(g2d);
+        if(Table.getRightRoom()!= null) drawRightRoom(g2d);
+        if(Table.getActiveRoom().getSize() != 0) drawActive(g2d);
+        if(Table.getShop().getSize() != 0) drawShop(g2d);
+        if(Table.getHealth().hasHealth()) drawHealth(g2d);
+        if(Table.getHealth().hasLost()) drawLost(g2d);
         //drawAll(g2d);
     }
 
     private void drawLost(Graphics2D g2d) {
-        BufferedImage img = playground.getHealth().getLostCard().getImage();
+        BufferedImage img = Table.getHealth().getLostCard().getImage();
         img = rotateImageByDegrees(img, 90);
         g2d.drawImage(img, pos.getLostX(), pos.getLostY(), CARD_WIDTH, CARD_HEIGHT, this);
     }
 
     private void drawHealth(Graphics2D g2d) {
-        BufferedImage img = playground.getHealth().getHealthCard().getImage();
+        BufferedImage img = Table.getHealth().getHealthCard().getImage();
         img = rotateImageByDegrees(img, 90);
         g2d.drawImage(img, pos.getHealthX(), pos.getHealthY(), CARD_WIDTH, CARD_HEIGHT, this);
         g2d.setColor(Color.RED);
         g2d.setFont(new Font("Courier New", Font.BOLD, 15));
-        g2d.drawString(Integer.toString(playground.getHealth().getHealthCards().size()),
+        g2d.drawString(Integer.toString(Table.getHealth().getHealthCards().size()),
                 pos.getHealthX()+getCardWidth()+5, pos.getHealthY()+10);
     }
 
     private void drawShop(Graphics2D g2d) {
-        BufferedImage img = playground.getShop().getLast().getFacingSide();
+        BufferedImage img = Table.getShop().getLast().getFacingSide();
         img = rotateImageByDegrees(img, 90);
         g2d.drawImage(img, pos.getShopX(), pos.getShopY(), CARD_WIDTH, CARD_HEIGHT, this);
     }
 
     private void drawActive(Graphics2D g2d) {
-        BufferedImage img = playground.getActiveRoom().getLast().getFacingSide();
+        BufferedImage img = Table.getActiveRoom().getLast().getFacingSide();
         img = rotateImageByDegrees(img, 90);
         g2d.drawImage(img, pos.getActiveRoomX(), pos.getActiveRoomY(), CARD_WIDTH, CARD_HEIGHT, this);
     }
 
     private void drawDungeon(Graphics2D g2d) {
-        BufferedImage img = playground.getDungeon().getFirst().getFacingSide();
+        BufferedImage img = Table.getDungeon().getLast().getFacingSide();
         img = rotateImageByDegrees(img, 90);
         g2d.drawImage(img, pos.getDungeonX(), pos.getDungeonY(), CARD_WIDTH, CARD_HEIGHT, this);
     }
 
     private void drawLeftRoom(Graphics2D g2d) {
-        BufferedImage img = playground.getLeftRoom().getFacingSide();
+        BufferedImage img = Table.getLeftRoom().getFacingSide();
         img = rotateImageByDegrees(img, 90);
         g2d.drawImage(img, pos.getLeftRoomX(), pos.getLeftRoomY(), CARD_WIDTH, CARD_HEIGHT, this);
     }
 
     private void drawRightRoom(Graphics2D g2d) {
-        BufferedImage img = playground.getRightRoom().getFacingSide();
+        BufferedImage img = Table.getRightRoom().getFacingSide();
         img = rotateImageByDegrees(img, 90);
         g2d.drawImage(img, pos.getRightRoomX(), pos.getRightRoomY(), CARD_WIDTH, CARD_HEIGHT, this);
     }
@@ -107,7 +105,7 @@ public class Window extends JFrame {
     private void drawAll(Graphics2D g2d) {
         int x = getInsets().left;
         int y = getInsets().top;
-        LinkedList<Card> cards = playground.getAllCards();
+        LinkedList<Card> cards = Table.getAllCards();
         for (Card c : cards) {
             BufferedImage img = c.getFacingSide();
             img = rotateImageByDegrees(img, 90);

@@ -13,9 +13,9 @@ public class ActiveRoom extends Zone<Card>{
         super("ActiveRoom", limit);
     }
 
-    public static void putDown(Table table) {
-        if(table.getActiveRoom().getLast().getSUIT().equals(Suit.CLUBS)) Shop.putCardToShop(table);
-        if(table.getActiveRoom().getLast().getSUIT().equals(Suit.HEARTS)) Health.lose(table);
+    public static void putDown() {
+        if(Table.getActiveRoom().getLast().getSUIT().equals(Suit.CLUBS)) Shop.putCardToShop();
+        if(Table.getActiveRoom().getLast().getSUIT().equals(Suit.HEARTS)) Health.lose();
     }
 
     @Override
