@@ -9,13 +9,11 @@ public class FileManager {
     private static String DICE_DIR = "";
 
     public static boolean findDirectory(String dir) {
-        if (Files.exists(Path.of(dir))) return true;
-        else return false;
+        return Files.exists(Path.of(dir));
     }
 
     public static boolean findFile(String path) {
-        if (Files.isRegularFile(Path.of(path))) return true;
-        else return false;
+        return Files.isRegularFile(Path.of(path));
     }
 
     public static String getImgDir() {

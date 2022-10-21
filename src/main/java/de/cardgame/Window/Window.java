@@ -1,7 +1,6 @@
 package de.cardgame.Window;
 
 import de.cardgame.Card;
-import de.cardgame.Dice;
 import de.cardgame.Table;
 
 import javax.swing.*;
@@ -15,14 +14,14 @@ public class Window extends JFrame {
     private static final int FRAME_SIZE_X = (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth();
     private static final int FRAME_SIZE_Y = (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight();
     private static final Color BACKGROUND = Color.BLACK;
-    private static final int CARD_WIDTH = 138;
-    private static final int CARD_HEIGHT = 190;
+    private static final int CARD_WIDTH = 148;
+    private static final int CARD_HEIGHT = 200;
     private static final int DICE_WIDTH = 35;
     private static final int DICE_HEIGHT = 35;
     private MouseWindowHandler mouse;
     private MainKeyListener keys;
     private FieldPositions pos;
-
+    private static boolean loading = true;
 
     public Window() {
         setSize(FRAME_SIZE_X, FRAME_SIZE_Y);
@@ -32,9 +31,13 @@ public class Window extends JFrame {
         setUndecorated(true);
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         setBackground(Color.BLACK);
-        this.setVisible(true);
         setBackground(BACKGROUND);
         pos = new FieldPositions(this);
+        this.setVisible(true);
+    }
+
+    public static void endLoading() {
+        loading = false;
     }
 
     /**
@@ -45,15 +48,38 @@ public class Window extends JFrame {
     @Override
     public void paint(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
-        g2d.clearRect(0, 0, (int)getSize().getWidth(), (int)getSize().getHeight());
-        if(Table.getDungeon().getSize() > 0) drawDungeon(g2d);
-        if(Table.getLeftRoom() != null) drawLeftRoom(g2d);
-        if(Table.getRightRoom()!= null) drawRightRoom(g2d);
-        if(Table.getActiveRoom().getSize() != 0) drawActive(g2d);
-        if(Table.getShop().getSize() != 0) drawShop(g2d);
-        if(Table.getHealth().hasHealth()) drawHealth(g2d);
-        if(Table.getHealth().hasLost()) drawLost(g2d);
+        g2d.clearRect(0, 0, (int) getSize().getWidth(), (int) getSize().getHeight());
+        if (loading) {
+            g2d.setColor(Color.WHITE);
+            g2d.setFont(new Font("Courier New", Font.BOLD, 50));
+            g2d.drawString("Loading...\n", pos.getCenterX()-150, pos.getCenterY()-25);
+        }
+        if (Table.getDungeon().getSize() > 0) drawDungeon(g2d);
+        if (Table.getLeftRoom() != null) drawLeftRoom(g2d);
+        if (Table.getRightRoom() != null) drawRightRoom(g2d);
+        if (Table.getActiveRoom().getSize() != 0) drawActive(g2d);
+        if (Table.getShop().getSize() > 0) drawShop(g2d);
+        if (Table.getHealth().hasHealth()) drawHealth(g2d);
+        if (Table.getHealth().hasLost()) drawLost(g2d);
+        if(Table.getSouls().getSize() > 0) drawSouls(g2d);
+        if(Table.getGold().getSize() > 0) drawGold(g2d);
         //drawAll(g2d);
+    }
+
+    private void drawGold(Graphics2D g2d) {
+        for (int i = 0; i < Table.getGold().getContent().size(); i++) {
+            BufferedImage img = Table.getGold().getContent().get(i).getFacingSide();
+            img = rotateImageByDegrees(img, 90);
+            g2d.drawImage(img, pos.getGoldX(i), pos.getGoldY(i), CARD_WIDTH, CARD_HEIGHT, this);
+        }
+    }
+
+    private void drawSouls(Graphics2D g2d) {
+        for (int i = 0; i < Table.getSouls().getContent().size(); i++) {
+            BufferedImage img = Table.getSouls().getContent().get(i).getFacingSide();
+            img = rotateImageByDegrees(img, 90);
+            g2d.drawImage(img, pos.getSoulsX(i), pos.getSoulsY(i), CARD_WIDTH, CARD_HEIGHT, this);
+        }
     }
 
     private void drawLost(Graphics2D g2d) {
@@ -68,8 +94,8 @@ public class Window extends JFrame {
         g2d.drawImage(img, pos.getHealthX(), pos.getHealthY(), CARD_WIDTH, CARD_HEIGHT, this);
         g2d.setColor(Color.RED);
         g2d.setFont(new Font("Courier New", Font.BOLD, 15));
-        g2d.drawString(Integer.toString(Table.getHealth().getHealthCards().size()),
-                pos.getHealthX()+getCardWidth()+5, pos.getHealthY()+10);
+        g2d.drawString(Integer.toString(Table.getHealth().getHealthCard().getHealthValue()),
+                pos.getHealthX() + getCardWidth() + 5, pos.getHealthY() + 10);
     }
 
     private void drawShop(Graphics2D g2d) {

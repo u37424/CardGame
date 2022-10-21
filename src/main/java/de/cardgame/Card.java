@@ -9,6 +9,7 @@ public class Card {
     //Jede Karte hat eine Farbe und einen Wert
     private final Suit SUIT;
     private final Value VALUE;
+    private int healthValue;
 
     private boolean visible;
 
@@ -65,6 +66,14 @@ public class Card {
 
     public BufferedImage getImage() {
         return image;
+    }
+
+    public void setHealthValue(int healthValue) {
+        this.healthValue = healthValue;
+    }
+
+    public int getHealthValue() {
+        return healthValue;
     }
 
     public static BufferedImage getBack() {

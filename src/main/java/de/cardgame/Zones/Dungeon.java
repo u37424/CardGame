@@ -16,9 +16,8 @@ public class Dungeon extends Zone<Card> {
 
     public static boolean clickDungeon() {
         if (Table.getDungeon().getSize() > 0) {
-            Table.getActiveRoom().add(Table.getDungeon().getLast());
+            if (Table.getActiveRoom().add(Table.getDungeon().getLast())) Table.getDungeon().removeLast();
             Table.getActiveRoom().getLast().flip();
-            Table.getDungeon().removeLast();
             ActiveRoom.putDown();
             return true;
         }
@@ -27,14 +26,13 @@ public class Dungeon extends Zone<Card> {
 
     public static boolean clickOpenLeft() {
         if (Table.getLeftRoom() != null) {
-            Table.getActiveRoom().add(Table.getLeftRoom());
-            Table.setLeftRoom(null);
-            ActiveRoom.putDown();
-            if(Table.getDungeon().getSize() > 0) {
+            if (Table.getActiveRoom().add(Table.getLeftRoom())) Table.setLeftRoom(null);
+            if (Table.getDungeon().getSize() > 0) {
                 Table.setLeftRoom(Table.getDungeon().getLast());
                 Table.getLeftRoom().flip();
                 Table.getDungeon().removeLast();
             }
+            ActiveRoom.putDown();
             return true;
         }
         return false;
@@ -42,14 +40,13 @@ public class Dungeon extends Zone<Card> {
 
     public static boolean clickOpenRight() {
         if (Table.getRightRoom() != null) {
-            Table.getActiveRoom().add(Table.getRightRoom());
-            Table.setRightRoom(null);
-            ActiveRoom.putDown();
-            if(Table.getDungeon().getSize() > 0) {
+            if (Table.getActiveRoom().add(Table.getRightRoom())) Table.setRightRoom(null);
+            if (Table.getDungeon().getSize() > 0) {
                 Table.setRightRoom(Table.getDungeon().getLast());
                 Table.getRightRoom().flip();
                 Table.getDungeon().removeLast();
             }
+            ActiveRoom.putDown();
             return true;
         }
         return false;

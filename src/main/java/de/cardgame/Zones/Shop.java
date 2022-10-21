@@ -14,8 +14,7 @@ public class Shop extends Zone<Card> {
 
     public static boolean putCardToShop() {
         if (Table.getDungeon().getSize() > 0) {
-            Table.getShop().add(Table.getDungeon().getLast());
-            Table.getDungeon().removeLast();
+            if (Table.getShop().add(Table.getDungeon().getLast())) Table.getDungeon().removeLast();
             return true;
         }
         return false;

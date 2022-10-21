@@ -9,7 +9,6 @@ public abstract class Zone<T> {
     private String name;
     private boolean hasLimit;
     private int limit;
-    private int OFFSET = 10;
 
     public Zone(String name){
         this.content = new LinkedList<>();
@@ -39,24 +38,8 @@ public abstract class Zone<T> {
         return hasLimit;
     }
 
-    public int getOFFSET() {
-        return OFFSET;
-    }
-
-    public void setOFFSET(int OFFSET) {
-        this.OFFSET = OFFSET;
-    }
-
     public int getLimit() {
         return limit;
-    }
-
-    public T getFirst(){
-        return getContent().getFirst();
-    }
-
-    public void removeFirst(){
-        getContent().removeFirst();
     }
 
     public boolean add(T e) {

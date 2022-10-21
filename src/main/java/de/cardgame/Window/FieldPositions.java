@@ -1,6 +1,7 @@
 package de.cardgame.Window;
 
 import de.cardgame.Card;
+import de.cardgame.Table;
 
 import java.util.LinkedList;
 
@@ -57,7 +58,7 @@ public class FieldPositions {
     }
 
     public int getShopX() {
-        return getRightRoomX()+w.getCardWidth()*2+MIN_DISTANCE;
+        return getRightRoomX()+w.getCardWidth()+MIN_DISTANCE;
     }
 
     public int getShopY() {
@@ -78,5 +79,27 @@ public class FieldPositions {
 
     public int getLostY() {
         return getHealthY()-w.getCardHeight()-MIN_DISTANCE;
+    }
+
+    public int getSoulsX(int i) {
+        int base = MIN_DISTANCE;
+        if(i == 0) return base;
+        int offset = 70-Table.getSouls().getSize()*2;
+        return base+offset*i;
+    }
+
+    public int getSoulsY(int i) {
+        return getDungeonY();
+    }
+
+    public int getGoldX(int i) {
+        int base = getLeftRoomX()-MIN_DISTANCE-w.getCardWidth();
+        if(i == 0) return base;
+        int offset = 70-Table.getSouls().getSize()*2;
+        return base+offset*i;
+    }
+
+    public int getGoldY(int i) {
+        return getHealthY();
     }
 }

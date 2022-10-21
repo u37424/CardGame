@@ -31,6 +31,8 @@ public class MainKeyListener implements KeyListener {
         if (e.getKeyCode() == KeyEvent.VK_F11){
             if(window.getState() == Frame.NORMAL){
                 window.setState(Frame.ICONIFIED);
+            } else {
+                window.setState(Frame.NORMAL);
             }
         }
         if (e.getKeyCode() == KeyEvent.VK_F12){

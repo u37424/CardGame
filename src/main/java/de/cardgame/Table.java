@@ -1,5 +1,6 @@
 package de.cardgame;
 
+import de.cardgame.Window.Window;
 import de.cardgame.Zones.*;
 
 import java.util.LinkedList;
@@ -27,6 +28,7 @@ public class Table {
 
     static {
         traverseStack(dungeon.getContent(), deck.getCards());
+
         leftRoom = dungeon.getLast();
         dungeon.removeLast();
         leftRoom.flip();
@@ -41,6 +43,8 @@ public class Table {
 
         System.out.println("Health " + health.getHealthCards().size());
         System.out.println("Carryspace " + carrySpace.getCarrySpace());
+
+        Window.endLoading();
     }
 
     public static Dungeon getDungeon() {
@@ -141,8 +145,6 @@ public class Table {
     }
 
     private static void traverseStack(LinkedList<Card> dest, LinkedList<Card> content) {
-        for (Card c : content) {
-            dest.add(c);
-        }
+        dest.addAll(content);
     }
 }

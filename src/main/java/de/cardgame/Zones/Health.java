@@ -25,8 +25,10 @@ public class Health extends Zone<Card> {
     void setup() {
         this.healthCards = new LinkedList<>();
         this.lostCards = new LinkedList<>();
-        for (int i = 0; i < 41; i++) {
-            healthCards.add(new Card(Suit.HEALTH, null));
+        for (int i = 0; i < 52; i++) {
+            Card c = new Card(Suit.HEALTH, null);
+            c.setHealthValue(i+1);
+            healthCards.add(c);
         }
     }
 
@@ -36,8 +38,11 @@ public class Health extends Zone<Card> {
         int amount = calcTemporaryHitAmount(value);
         for (int i = 0; i < amount; i++) {
             if (h.healthCards.size() > 0) {
-                h.healthCards.removeFirst();
-                h.lostCards.add(new Card(Suit.HEALTH_LOST, null));
+                int temp = h.healthCards.getLast().getHealthValue();
+                h.healthCards.removeLast();
+                Card c = new Card(Suit.HEALTH_LOST, null);
+                c.setHealthValue(temp);
+                h.lostCards.add(c);
             } else {
                 Game.end();
             }
@@ -50,8 +55,11 @@ public class Health extends Zone<Card> {
         int amount = Table.getActiveRoom().getLast().getVALUE().getValue();
         for (int i = 0; i < amount; i++) {
             if (h.lostCards.size() > 0) {
+                int temp = h.lostCards.getLast().getHealthValue();
                 h.lostCards.removeLast();
-                h.healthCards.add(new Card(Suit.HEALTH, null));
+                Card c = new Card(Suit.HEALTH_LOST, null);
+                c.setHealthValue(temp);
+                h.healthCards.add(c);
             }
         }
         h.updateImg();
@@ -66,7 +74,7 @@ public class Health extends Zone<Card> {
     }
 
     public Card getHealthCard() {
-        return healthCards.getFirst();
+        return healthCards.getLast();
     }
 
     public Card getLostCard() {
@@ -74,7 +82,7 @@ public class Health extends Zone<Card> {
     }
 
     void updateImg() {
-        if (this.healthCards.size() > 0) this.healthCards.getFirst().setImg();
+        if (this.healthCards.size() > 0) this.healthCards.getLast().setImg();
         if (this.lostCards.size() > 0) this.lostCards.getLast().setImg();
         System.out.println("Health " + healthCards.size());
     }
