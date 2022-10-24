@@ -52,7 +52,7 @@ public class MouseWindowHandler extends MouseAdapter {
         for (int i = 0; i < Table.getGold().getSize(); i++) {
             int width = FieldPositions.getGoldOffset();
             if(i == Table.getGold().getSize()-1) width = window.getCardWidth();
-            if (x >= p.getSoulsX(i) && x <= (p.getSoulsX(i) + width)) return i;
+            if (x >= p.getGoldX(i) && x <= (p.getGoldX(i) + width)) return i;
         }
         return -1;
     }

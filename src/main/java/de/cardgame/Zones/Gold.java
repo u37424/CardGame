@@ -23,7 +23,6 @@ public class Gold extends Zone<Card>{
     public static boolean pay(int goldIndex) {
         if(goldIndex < 0 || goldIndex > Table.getGold().getSize()) return false;
         if(Table.getTrash().add(Table.getGold().getIndex(goldIndex))) Table.getGold().removeIndex(goldIndex);
-        System.out.println("P: "+Table.getTrash().getLast().getVALUE());
         FieldPositions.setGoldOffset();
         return true;
     }

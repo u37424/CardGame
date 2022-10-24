@@ -13,11 +13,9 @@ public class Window extends JFrame {
 
     private static final int FRAME_SIZE_X = (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth();
     private static final int FRAME_SIZE_Y = (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight();
-    //private static final int FRAME_SIZE_X = 1920;
-    //private static final int FRAME_SIZE_Y = 1280;
     private static final Color BACKGROUND = Color.BLACK;
-    private static final int CARD_WIDTH = 148 - 40;
-    private static final int CARD_HEIGHT = 200 - 45;
+    private static final int CARD_WIDTH = (int) (FRAME_SIZE_X * 0.077);
+    private static final int CARD_HEIGHT = (int) (FRAME_SIZE_Y*0.18);
     private static final int DICE_WIDTH = 35;
     private static final int DICE_HEIGHT = 35;
     private MouseWindowHandler mouse;
