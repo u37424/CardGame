@@ -1,6 +1,8 @@
 package de.cardgame.Zones;
 
-public class Trash extends Zone{
+import de.cardgame.Card;
+
+public class Trash extends Zone<Card>{
     public Trash() {
         super("Trash");
     }

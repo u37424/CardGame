@@ -1,5 +1,7 @@
 package de.cardgame.Window;
 
+import de.cardgame.Table;
+
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;

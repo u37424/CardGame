@@ -10,14 +10,14 @@ public abstract class Zone<T> {
     private boolean hasLimit;
     private int limit;
 
-    public Zone(String name){
+    public Zone(String name) {
         this.content = new LinkedList<>();
         this.name = name;
         this.hasLimit = false;
         this.limit = 0;
     }
 
-    public Zone(String name, int limit){
+    public Zone(String name, int limit) {
         this.content = new LinkedList<>();
         this.name = name;
         this.hasLimit = true;
@@ -26,11 +26,11 @@ public abstract class Zone<T> {
 
     abstract void setup();
 
-    public String getName(){
+    public String getName() {
         return name;
     }
 
-    public LinkedList<T> getContent(){
+    public LinkedList<T> getContent() {
         return content;
     }
 
@@ -43,7 +43,7 @@ public abstract class Zone<T> {
     }
 
     public boolean add(T e) {
-        if(isHasLimit() && getContent().size() >=getLimit()) return false;
+        if (isHasLimit() && getContent().size() >= getLimit()) return false;
         getContent().add(e);
         return true;
     }
@@ -52,11 +52,20 @@ public abstract class Zone<T> {
         return getContent().size();
     }
 
-    public T getLast(){
+    public T getLast() {
         return getContent().getLast();
     }
 
-    public void removeLast(){
+    public void removeLast() {
         getContent().removeLast();
     }
+
+    public T getIndex(int i) {
+        return getContent().get(i);
+    }
+
+    public void removeIndex(int i) {
+        getContent().remove(i);
+    }
+
 }
