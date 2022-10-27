@@ -92,7 +92,7 @@ public class FieldPositions {
     }
 
     public static void setSOULS_OFFSET() {
-        SOULS_OFFSET = (int) (FRAME_X*0.035) - Table.getSouls().getSize() * 2;
+        SOULS_OFFSET = (int) (FRAME_X*0.04) - Table.getSouls().getSize() * 2;
     }
 
     public static int getSOULS_OFFSET() {
@@ -101,7 +101,7 @@ public class FieldPositions {
 
     public static void setGoldOffset() {
 
-        GOLD_OFFSET = (int) (FRAME_X*0.035)  - Table.getGold().getSize() * 2;
+        GOLD_OFFSET = (int) (FRAME_X*0.04)  - Table.getGold().getSize() * 2;
     }
 
     public static int getGoldOffset() {
