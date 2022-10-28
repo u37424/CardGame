@@ -14,9 +14,9 @@ public class Window extends JFrame {
     private static final int FRAME_SIZE_X = (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth();
     private static final int FRAME_SIZE_Y = (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight();
     private static final Color BACKGROUND = Color.BLACK;
-    private static final int CARD_WIDTH = (int) (FRAME_SIZE_X * 0.085);
-    private static final int CARD_HEIGHT = (int) (FRAME_SIZE_Y*0.18);
-    private static final int DICE_WIDTH = (int) (FRAME_SIZE_X*0.02);
+    private static final int CARD_WIDTH = (int) (FRAME_SIZE_X * 0.08);
+    private static final int CARD_HEIGHT = (int) (CARD_WIDTH * 1.4);
+    private static final int DICE_WIDTH = (int) (FRAME_SIZE_X * 0.02);
     private static final int DICE_HEIGHT = DICE_WIDTH;
     private MouseWindowHandler mouse;
     private MainKeyListener keys;
@@ -31,7 +31,6 @@ public class Window extends JFrame {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setUndecorated(true);
         setExtendedState(JFrame.MAXIMIZED_BOTH);
-        setBackground(Color.BLACK);
         setBackground(BACKGROUND);
         pos = new FieldPositions(this);
         this.setVisible(true);
@@ -55,6 +54,7 @@ public class Window extends JFrame {
         if (Table.getRightRoom() != null) drawRightRoom(g2d);
         if (Table.getActiveRoom().getSize() != 0) drawActive(g2d);
         if (Table.getDicePool().getSize() > 0) drawDicePool(g2d);
+        if (Table.getCarrySpace().getSize() > 0) drawCarrySpace(g2d);
         if (Table.getShop().getSize() > 0) drawShop(g2d);
         if (Table.getTrash().getSize() > 0) drawTrash(g2d);
         if (Table.getHealth().hasHealth()) drawHealth(g2d);
@@ -62,6 +62,69 @@ public class Window extends JFrame {
         if (Table.getSouls().getSize() > 0) drawSouls(g2d);
         if (Table.getGold().getSize() > 0) drawGold(g2d);
         //drawAll(g2d);
+    }
+
+    private void drawCarrySpace(Graphics2D g2d) {
+        int s = Table.getCarrySpace().getSize();
+        for (int i = 0; i < s; i++) {
+            int x = 0;
+            int y = 0;
+            switch (i) {
+                case 0:
+                    if (s == 1 || s == 2) {
+                        x = pos.getPoolLeftMiddleX();
+                        y = pos.getPoolLeftMiddleY();
+                    } else if (s == 3 || s == 4) {
+                        x = pos.getPoolLeftBetweenTopX();
+                        y = pos.getPoolLeftBetweenTopY();
+                    } else if (s == 5 || s == 6) {
+                        x = pos.getPoolLeftTopX();
+                        y = pos.getPoolLeftTopY();
+                    }
+                    break;
+                case 1:
+                    if (s == 2) {
+                        x = pos.getPoolRightMiddleX();
+                        y = pos.getPoolRightMiddleY();
+                    } else if (s == 3 || s == 4) {
+                        x = pos.getPoolRightBetweenTopX();
+                        y = pos.getPoolRightBetweenTopY();
+                    } else if (s == 5 || s == 6) {
+                        x = pos.getPoolRightTopX();
+                        y = pos.getPoolRightTopY();
+                    }
+                    break;
+
+                case 2:
+                    if (s == 3 || s == 4) {
+                        x = pos.getPoolLeftBetweenBottomX();
+                        y = pos.getPoolLeftBetweenBottomY();
+                    } else if (s == 5 || s == 6) {
+                        x = pos.getPoolLeftMiddleX();
+                        y = pos.getPoolLeftMiddleY();
+                    }
+                    break;
+                case 3:
+                    if (s == 4) {
+                        x = pos.getPoolRightBetweenBottomX();
+                        y = pos.getPoolRightBetweenBottomY();
+                    } else if (s == 5 || s == 6) {
+                        x = pos.getPoolRightMiddleX();
+                        y = pos.getPoolRightMiddleY();
+                    }
+                    break;
+                case 4:
+                    x = pos.getPoolLeftBottomX();
+                    y = pos.getPoolLeftBottomY();
+                    break;
+                case 5:
+                    x = pos.getPoolRightBottomX();
+                    y = pos.getPoolRightBottomY();
+                    break;
+            }
+            BufferedImage img = Table.getCarrySpace().getIndex(i).getImage();
+            drawDiceAtXY(img, x+getDiceWidth()*4+pos.getMIN_DISTANCE()*3, y, g2d);
+        }
     }
 
     private void drawDicePool(Graphics2D g2d) {
@@ -117,8 +180,8 @@ public class Window extends JFrame {
                     }
                     break;
                 case 4:
-                        x = pos.getPoolLeftMiddleX();
-                        y = pos.getPoolLeftMiddleY();
+                    x = pos.getPoolLeftMiddleX();
+                    y = pos.getPoolLeftMiddleY();
                     break;
                 case 5:
                     x = pos.getPoolRightMiddleX();
@@ -126,7 +189,7 @@ public class Window extends JFrame {
                     break;
             }
             BufferedImage img = Table.getDicePool().getIndex(i).getImage();
-            drawDiceAtXY(img,x,y, g2d);
+            drawDiceAtXY(img, x, y, g2d);
         }
     }
 
@@ -242,11 +305,6 @@ public class Window extends JFrame {
         return rotated;
     }
 
-    /**
-     * Setzt den WindowHandler fuer das Frame.
-     *
-     * @param mainWindowHandler Fuegt einen WindowHandler zum Frame hinzu.
-     */
     public void setHandler(MainWindowHandler mainWindowHandler) {
         addWindowListener(mainWindowHandler);
     }

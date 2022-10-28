@@ -18,6 +18,12 @@ public class Dice {
         setImg();
     }
 
+    public Dice(int face) {
+        setFace(face);
+        updateSymbol();
+        setImg();
+    }
+
     private void updateSymbol() {
         if(face == 1) symbol = "\u2680";
         if(face == 2) symbol = "\u2681";
@@ -88,7 +94,7 @@ public class Dice {
         if(getFace() == 4) return "FOUR";
         if(getFace() == 5) return "FIVE";
         if(getFace() == 6) return "SIX";
-        return "";
+        return "ERROR_"+getFace();
     }
 
     @Override

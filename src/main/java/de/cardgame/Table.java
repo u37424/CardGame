@@ -42,7 +42,7 @@ public class Table {
         dicePool.removeLast();
 
         System.out.println("Health " + health.getHealthCards().size());
-        System.out.println("Carryspace " + carrySpace.getCarrySpace());
+        System.out.println("Carryspace " + carrySpace.getCarryAmount());
 
         Window.endLoading();
     }
