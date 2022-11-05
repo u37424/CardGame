@@ -1,6 +1,7 @@
 package de.cardgame.Zones;
 
 import de.cardgame.Dice;
+import de.cardgame.Skin;
 
 public class ShieldDice extends Zone<Dice> {
     public ShieldDice() {
@@ -15,7 +16,7 @@ public class ShieldDice extends Zone<Dice> {
 
     @Override
     void setup() {
-        add(new Dice());
-        add(new Dice());
+        add(new Dice(Skin.SHIELD));
+        add(new Dice(Skin.SHIELD));
     }
 }

@@ -1,6 +1,7 @@
 package de.cardgame.Zones;
 
 import de.cardgame.Dice;
+import de.cardgame.Skin;
 
 public class DicePool extends Zone<Dice>{
     public DicePool() {
@@ -15,11 +16,11 @@ public class DicePool extends Zone<Dice>{
 
     @Override
     void setup() {
-        getContent().add(new Dice());
-        getContent().add(new Dice());
-        getContent().add(new Dice());
-        getContent().add(new Dice());
-        getContent().add(new Dice());
-        getContent().add(new Dice());
+        getContent().add(new Dice(Skin.DICE));
+        getContent().add(new Dice(Skin.DICE));
+        getContent().add(new Dice(Skin.DICE));
+        getContent().add(new Dice(Skin.DICE));
+        getContent().add(new Dice(Skin.DICE));
+        getContent().add(new Dice(Skin.DICE));
     }
 }

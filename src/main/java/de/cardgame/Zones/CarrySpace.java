@@ -1,6 +1,7 @@
 package de.cardgame.Zones;
 
 import de.cardgame.Dice;
+import de.cardgame.Skin;
 import de.cardgame.Table;
 
 public class CarrySpace extends Zone<Dice> {
@@ -30,7 +31,7 @@ public class CarrySpace extends Zone<Dice> {
         }
         if (Table.getDicePool().getSize() > 0) {
             Table.getDicePool().removeLast();
-            Table.getCarrySpace().add(new Dice(Math.min(6, amount)));
+            Table.getCarrySpace().add(new Dice(Math.min(6, amount), Skin.DICE));
             amount -= Table.getCarrySpace().getLast().getFace();
             return grow(amount);
         }
@@ -44,7 +45,7 @@ public class CarrySpace extends Zone<Dice> {
             int temp = Math.min(Table.getCarrySpace().getLast().getFace(), amount);
             amount -= temp;
             if (Table.getCarrySpace().getLast().getFace() <= temp) {
-                Table.getDicePool().add(new Dice(Table.getCarrySpace().getLast().getFace()));
+                Table.getDicePool().add(new Dice(Table.getCarrySpace().getLast().getFace(), Skin.DICE));
                 Table.getCarrySpace().removeLast();
             } else {
                 Table.getCarrySpace().getLast().setFace(Table.getCarrySpace().getLast().getFace()-temp);

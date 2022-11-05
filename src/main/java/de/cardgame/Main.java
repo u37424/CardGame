@@ -1,9 +1,6 @@
 package de.cardgame;
 
-import de.cardgame.Window.MainKeyListener;
-import de.cardgame.Window.MainWindowHandler;
-import de.cardgame.Window.MouseWindowHandler;
-import de.cardgame.Window.Window;
+import de.cardgame.Window.*;
 
 public class Main {
     private static Window mainWindow;
@@ -13,7 +10,8 @@ public class Main {
 
     public static void main(String[] args) {
         //Set Table
-        FileManager.setImagesDir("./Textures", "Cards", "Dice");
+        if(!FileManager.setDir("./Textures", "Cards_STD", "Dice_STD", "Health_STD")) return;
+        FileManager.setNoFlip(false);
 
         //Set Frame
         mainWindowHandler = new MainWindowHandler();

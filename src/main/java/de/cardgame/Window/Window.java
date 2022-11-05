@@ -18,9 +18,13 @@ public class Window extends JFrame {
     private static final int CARD_HEIGHT = (int) (CARD_WIDTH * 1.4);
     private static final int DICE_WIDTH = (int) (FRAME_SIZE_X * 0.02);
     private static final int DICE_HEIGHT = DICE_WIDTH;
+    private static final int SHIELD_DICE_WIDTH = (int) (FRAME_SIZE_X * 0.017);
+    private static final int SHIELD_DICE_HEIGHT = SHIELD_DICE_WIDTH;
+    private static final int SCROLL_DICE_WIDTH = (int) (FRAME_SIZE_X * 0.02);
+    private static final int SCROLL_DICE_HEIGHT = SCROLL_DICE_WIDTH;
     private MouseWindowHandler mouse;
     private MainKeyListener keys;
-    private FieldPositions pos;
+    private static FieldPositions pos;
     private static boolean loading = true;
 
     public Window() {
@@ -61,7 +65,26 @@ public class Window extends JFrame {
         if (Table.getHealth().hasLost()) drawLost(g2d);
         if (Table.getSouls().getSize() > 0) drawSouls(g2d);
         if (Table.getGold().getSize() > 0) drawGold(g2d);
+        if(Table.getShieldDice().getSize() > 0) drawShieldDice(g2d);
+        if(Table.getScrollDice() != null) drawScrollDice(g2d);
         //drawAll(g2d);
+    }
+
+    private void drawScrollDice(Graphics2D g2d) {
+        BufferedImage img = Table.getScrollDice().getImage();
+        g2d.drawImage(img, pos.getTempScrollX(), pos.getTempScrollY(), DICE_WIDTH, DICE_HEIGHT, this);
+    }
+
+    private void drawShieldDice(Graphics2D g2d) {
+        BufferedImage img = null;
+        if(Table.getShieldDice().getSize() > 0) {
+            img = Table.getShieldDice().getIndex(0).getImage();
+            g2d.drawImage(img, pos.getTempShieldOneX(), pos.getTempShieldOneY(), SHIELD_DICE_WIDTH, SHIELD_DICE_HEIGHT, this);
+        }
+        if(Table.getShieldDice().getSize() > 1) {
+            img = Table.getShieldDice().getIndex(1).getImage();
+            g2d.drawImage(img, pos.getTempShieldTwoX(), pos.getTempShieldTwoY(), SHIELD_DICE_WIDTH, SHIELD_DICE_HEIGHT, this);
+        }
     }
 
     private void drawCarrySpace(Graphics2D g2d) {
@@ -123,7 +146,7 @@ public class Window extends JFrame {
                     break;
             }
             BufferedImage img = Table.getCarrySpace().getIndex(i).getImage();
-            drawDiceAtXY(img, x+getDiceWidth()*4+pos.getMIN_DISTANCE()*3, y, g2d);
+            drawDiceAtXY(img, x+pos.getCarryOffset(), y, g2d);
         }
     }
 
@@ -194,7 +217,7 @@ public class Window extends JFrame {
     }
 
     private void drawDiceAtXY(BufferedImage img, int x, int y, Graphics2D g2d) {
-        img = rotateImageByDegrees(img, 90);
+        //img = rotateImageByDegrees(img, 90);
         g2d.drawImage(img, x, y, DICE_WIDTH, DICE_HEIGHT, this);
     }
 
@@ -283,6 +306,7 @@ public class Window extends JFrame {
     }
 
     public BufferedImage rotateImageByDegrees(BufferedImage img, double angle) {
+        if(FileManager.isNoFlip()) return img;
         double rads = Math.toRadians(angle);
         double sin = Math.abs(Math.sin(rads)), cos = Math.abs(Math.cos(rads));
         int w = img.getWidth();
@@ -343,7 +367,23 @@ public class Window extends JFrame {
         return DICE_WIDTH;
     }
 
-    public FieldPositions getPos() {
+    public int getShieldDiceHeight() {
+        return SHIELD_DICE_HEIGHT;
+    }
+
+    public int getShieldDiceWidth() {
+        return SHIELD_DICE_WIDTH;
+    }
+
+    public int getScrollDiceHeight() {
+        return SCROLL_DICE_HEIGHT;
+    }
+
+    public int getScrollDiceWidth() {
+        return SCROLL_DICE_WIDTH;
+    }
+
+    public static FieldPositions getPos() {
         return pos;
     }
 }

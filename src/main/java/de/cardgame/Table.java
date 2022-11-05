@@ -22,7 +22,7 @@ public class Table {
     private static Weapons weapons= new Weapons(6);
     private static DicePool dicePool= new DicePool(6);
     private static CarrySpace carrySpace = new CarrySpace(6);
-    private static Dice scrollDice= new Dice();
+    private static Dice scrollDice= new Dice(Skin.SCROLL);
     private static ShieldDice shieldDice= new ShieldDice(2);
     private static Health health = new Health();
 

@@ -1,5 +1,7 @@
 package de.cardgame;
 
+import de.cardgame.Window.FileManager;
+
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -17,23 +19,22 @@ public class Card {
     private static BufferedImage back;
 
     static {
-        if (FileManager.findDirectory(FileManager.getCardDir())) {
-            String path = FileManager.getCardDir();
-            if (FileManager.findFile(path + "/C_BACK.jpg")) {
-                path += "/C_BACK.jpg";
-            } else if (FileManager.findFile(path + "/C_BACK.png")) {
-                path += "/C_BACK.png";
-            } else {
-                System.err.println("No Back Image Found.");
+        if (!FileManager.exist()) {
+            System.err.println("Directories changed.");
+        } else {
+            //Find Backsides
+            String path = findBGFile();
+            if (path == null || path == "") {
+                System.err.println("Image for Backsides not found!");
             }
+
+            //Backsides laden
             try {
                 BufferedImage img = javax.imageio.ImageIO.read(new File(path));
                 back = img;
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        } else {
-            System.err.println("No Directory for Backside image found!");
         }
     }
 
@@ -81,15 +82,12 @@ public class Card {
     }
 
     public boolean setImg() {
-        //Finde Directory
-        if (!FileManager.findDirectory(FileManager.getCardDir())) {
-            System.err.println("Cannot find Card Image Folder!");
-            return false;
-        }
+        if (!FileManager.exist()) return false;
+
         //Finde konkrete File
         String path = findIMGFile();
         if (path == null || path == "") {
-            System.err.println("Image for "+getVALUE()+" "+getSUIT() +" not found!");
+            System.err.println("Image for " + getVALUE() + " " + getSUIT() + " not found!");
             return false;
         }
 
@@ -97,10 +95,9 @@ public class Card {
         try {
             BufferedImage img = javax.imageio.ImageIO.read(new File(path));
             this.image = img;
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
+            return false;
         }
         return true;
     }
@@ -108,12 +105,25 @@ public class Card {
     private String findIMGFile() {
         String path = "";
         if (this.getSUIT().equals(Suit.HEALTH) || this.getSUIT().equals(Suit.HEALTH_LOST))
-            path = FileManager.getCardDir() + "/C_" + getSUIT();
+            path = FileManager.getHealthDir() + "/C_" + getSUIT();
         else path = FileManager.getCardDir() + "/C_" + getSUIT() + "_" + getVALUE();
         if (FileManager.findFile(path + ".jpg")) return path + ".jpg";
         else if ((FileManager.findFile(path + ".png"))) return path + ".png";
         else return "";
 
+    }
+
+    private static String findBGFile() {
+        String path = FileManager.getCardDir();
+        //Backsides suchen
+        if (FileManager.findFile(path + "/C_BACK.jpg")) {
+            path += "/C_BACK.jpg";
+        } else if (FileManager.findFile(path + "/C_BACK.png")) {
+            path += "/C_BACK.png";
+        } else {
+            return "";
+        }
+        return path;
     }
 
     @Override

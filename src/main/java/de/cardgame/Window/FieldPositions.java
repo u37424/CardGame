@@ -91,17 +91,16 @@ public class FieldPositions {
         return getHealthY() - w.getCardHeight() - MIN_DISTANCE;
     }
 
-    public static void setSOULS_OFFSET() {
-        SOULS_OFFSET = (int) (FRAME_X*0.035) - Table.getSouls().getSize() * 2;
+    public void setSOULS_OFFSET() {
+        SOULS_OFFSET = (int) ((getLeftRoomX()-getSoulsX(0)-w.getCardWidth())/13);
     }
 
     public static int getSOULS_OFFSET() {
         return SOULS_OFFSET;
     }
 
-    public static void setGoldOffset() {
-
-        GOLD_OFFSET = (int) (FRAME_X*0.035)  - Table.getGold().getSize() * 2;
+    public void setGoldOffset() {
+        GOLD_OFFSET = (int) ((getShopX()-getGoldX(0)-w.getCardWidth())/13);
     }
 
     public static int getGoldOffset() {
@@ -217,4 +216,38 @@ public class FieldPositions {
     public int getPoolRightBetweenBottomY() {
         return getPoolRightMiddleY()+w.getDiceHeight()/2+MIN_DISTANCE/2;
     }
+
+    public int getCarryOffset() {
+        return w.getDiceWidth()*4+MIN_DISTANCE*3;
+    }
+
+    public double getShieldDifference() {
+        return (w.getDiceWidth()-w.getShieldDiceWidth())/2;
+    }
+
+    public int getTempShieldOneX() {
+        return getPoolRightMiddleX()+(int)(w.getShieldDiceWidth()*0.5);
+    }
+
+    public int getTempShieldOneY() {
+        return getHealthY()-w.getShieldDiceHeight();
+    }
+
+    public int getTempShieldTwoX() {
+        return getTempShieldOneX()+w.getShieldDiceWidth()+MIN_DISTANCE;
+    }
+
+    public int getTempShieldTwoY() {
+        return getTempShieldOneY();
+    }
+
+    public int getTempScrollX() {
+        return getTempShieldTwoX()+w.getShieldDiceWidth()+MIN_DISTANCE*2;
+    }
+
+    public int getTempScrollY() {
+        return (int) (getTempShieldOneY()-getShieldDifference());
+    }
+
+
 }
