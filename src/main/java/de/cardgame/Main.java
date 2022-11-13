@@ -10,7 +10,7 @@ public class Main {
 
     public static void main(String[] args) {
         //Set Table
-        if(!FileManager.setDir("./Textures", "Cards_STD", "Dice_STD", "Health_STD")) return;
+        if(!FileManager.setDir("./Textures/Std_Real", "Cards_STD", "Dice_STD", "Health_STD", "Gold_STD", "Souls_STD")) return;
         FileManager.setNoFlip(false);
 
         //Set Frame
@@ -22,5 +22,9 @@ public class Main {
         mainWindow.setMouseListener(mouseWindowHandler);
         mainWindow.setHandler(mainWindowHandler);
         mainWindow.setKeyListener(mainKeyListener);
+    }
+
+    public static Window getMainWindow() {
+        return mainWindow;
     }
 }

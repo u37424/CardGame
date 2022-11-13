@@ -4,12 +4,11 @@ import de.cardgame.Window.FileManager;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public class Card {
     //Jede Karte hat eine Farbe und einen Wert
-    private final Suit SUIT;
+    private Suit SUIT;
     private final Value VALUE;
     private int healthValue;
 
@@ -103,9 +102,13 @@ public class Card {
     }
 
     private String findIMGFile() {
-        String path = "";
+        String path;
         if (this.getSUIT().equals(Suit.HEALTH) || this.getSUIT().equals(Suit.HEALTH_LOST))
             path = FileManager.getHealthDir() + "/C_" + getSUIT();
+        else if (this.getSUIT().equals(Suit.GOLD))
+            path = FileManager.getGoldDir() + "/C_" + getSUIT() + "_" + getVALUE();
+        else if (this.getSUIT().equals(Suit.SOULS))
+            path = FileManager.getSoulsDir() + "/C_" + getSUIT() + "_" + getVALUE();
         else path = FileManager.getCardDir() + "/C_" + getSUIT() + "_" + getVALUE();
         if (FileManager.findFile(path + ".jpg")) return path + ".jpg";
         else if ((FileManager.findFile(path + ".png"))) return path + ".png";
@@ -132,11 +135,15 @@ public class Card {
     }
 
     public void flip() {
-        if (isVisible()) setVisible(false);
-        else setVisible(true);
+        setVisible(!isVisible());
     }
 
     public BufferedImage getFacingSide() {
         return isVisible() ? getImage() : getBack();
+    }
+
+    public void changeSUIT(Suit suit) {
+        this.SUIT = suit;
+        this.setImg();
     }
 }

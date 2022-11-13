@@ -11,21 +11,33 @@ import java.util.LinkedList;
 
 public class Window extends JFrame {
 
-    private static final int FRAME_SIZE_X = (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth();
-    private static final int FRAME_SIZE_Y = (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight();
+    private static final int FRAME_SIZE_X;
+    private static final int FRAME_SIZE_Y;
     private static final Color BACKGROUND = Color.BLACK;
-    private static final int CARD_WIDTH = (int) (FRAME_SIZE_X * 0.08);
-    private static final int CARD_HEIGHT = (int) (CARD_WIDTH * 1.4);
-    private static final int DICE_WIDTH = (int) (FRAME_SIZE_X * 0.02);
-    private static final int DICE_HEIGHT = DICE_WIDTH;
-    private static final int SHIELD_DICE_WIDTH = (int) (FRAME_SIZE_X * 0.017);
-    private static final int SHIELD_DICE_HEIGHT = SHIELD_DICE_WIDTH;
-    private static final int SCROLL_DICE_WIDTH = (int) (FRAME_SIZE_X * 0.02);
-    private static final int SCROLL_DICE_HEIGHT = SCROLL_DICE_WIDTH;
-    private MouseWindowHandler mouse;
-    private MainKeyListener keys;
+    private static final int CARD_WIDTH;
+    private static final int CARD_HEIGHT;
+    private static final int DICE_WIDTH;
+    private static final int DICE_HEIGHT;
+    private static final int SHIELD_DICE_WIDTH;
+    private static final int SHIELD_DICE_HEIGHT;
+    private static final int SCROLL_DICE_WIDTH;
+    private static final int SCROLL_DICE_HEIGHT;
+    private static double HEIGHT_RATIO = 1.425;
     private static FieldPositions pos;
     private static boolean loading = true;
+
+    static {
+        FRAME_SIZE_X = (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth();
+        FRAME_SIZE_Y = (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight();
+        CARD_WIDTH = (int) (FRAME_SIZE_X * 0.08);
+        CARD_HEIGHT = (int) (CARD_WIDTH * HEIGHT_RATIO);
+        DICE_WIDTH = (int) (FRAME_SIZE_X * 0.02);
+        DICE_HEIGHT = DICE_WIDTH;
+        SHIELD_DICE_WIDTH = (int) (FRAME_SIZE_X * 0.017);
+        SHIELD_DICE_HEIGHT = SHIELD_DICE_WIDTH;
+        SCROLL_DICE_WIDTH = (int) (FRAME_SIZE_X * 0.02);
+        SCROLL_DICE_HEIGHT = SCROLL_DICE_WIDTH;
+    }
 
     public Window() {
         setSize(FRAME_SIZE_X, FRAME_SIZE_Y);
@@ -76,7 +88,7 @@ public class Window extends JFrame {
     }
 
     private void drawShieldDice(Graphics2D g2d) {
-        BufferedImage img = null;
+        BufferedImage img;
         if(Table.getShieldDice().getSize() > 0) {
             img = Table.getShieldDice().getIndex(0).getImage();
             g2d.drawImage(img, pos.getTempShieldOneX(), pos.getTempShieldOneY(), SHIELD_DICE_WIDTH, SHIELD_DICE_HEIGHT, this);
@@ -217,20 +229,17 @@ public class Window extends JFrame {
     }
 
     private void drawDiceAtXY(BufferedImage img, int x, int y, Graphics2D g2d) {
-        //img = rotateImageByDegrees(img, 90);
         g2d.drawImage(img, x, y, DICE_WIDTH, DICE_HEIGHT, this);
     }
 
     private void drawTrash(Graphics2D g2d) {
         BufferedImage img = Table.getTrash().getLast().getFacingSide();
-        img = rotateImageByDegrees(img, 90);
         g2d.drawImage(img, pos.getTrashX(), pos.getTrashY(), CARD_WIDTH, CARD_HEIGHT, this);
     }
 
     private void drawGold(Graphics2D g2d) {
         for (int i = 0; i < Table.getGold().getContent().size(); i++) {
             BufferedImage img = Table.getGold().getContent().get(i).getFacingSide();
-            img = rotateImageByDegrees(img, 90);
             g2d.drawImage(img, pos.getGoldX(i), pos.getGoldY(i), CARD_WIDTH, CARD_HEIGHT, this);
         }
     }
@@ -238,20 +247,17 @@ public class Window extends JFrame {
     private void drawSouls(Graphics2D g2d) {
         for (int i = 0; i < Table.getSouls().getContent().size(); i++) {
             BufferedImage img = Table.getSouls().getContent().get(i).getFacingSide();
-            img = rotateImageByDegrees(img, 90);
             g2d.drawImage(img, pos.getSoulsX(i), pos.getSoulsY(i), CARD_WIDTH, CARD_HEIGHT, this);
         }
     }
 
     private void drawLost(Graphics2D g2d) {
         BufferedImage img = Table.getHealth().getLostCard().getImage();
-        img = rotateImageByDegrees(img, 90);
         g2d.drawImage(img, pos.getLostX(), pos.getLostY(), CARD_WIDTH, CARD_HEIGHT, this);
     }
 
     private void drawHealth(Graphics2D g2d) {
         BufferedImage img = Table.getHealth().getHealthCard().getImage();
-        img = rotateImageByDegrees(img, 90);
         g2d.drawImage(img, pos.getHealthX(), pos.getHealthY(), CARD_WIDTH, CARD_HEIGHT, this);
         g2d.setColor(Color.RED);
         g2d.setFont(new Font("Courier New", Font.BOLD, 15));
@@ -261,31 +267,26 @@ public class Window extends JFrame {
 
     private void drawShop(Graphics2D g2d) {
         BufferedImage img = Table.getShop().getLast().getFacingSide();
-        img = rotateImageByDegrees(img, 90);
         g2d.drawImage(img, pos.getShopX(), pos.getShopY(), CARD_WIDTH, CARD_HEIGHT, this);
     }
 
     private void drawActive(Graphics2D g2d) {
         BufferedImage img = Table.getActiveRoom().getLast().getFacingSide();
-        img = rotateImageByDegrees(img, 90);
         g2d.drawImage(img, pos.getActiveRoomX(), pos.getActiveRoomY(), CARD_WIDTH, CARD_HEIGHT, this);
     }
 
     private void drawDungeon(Graphics2D g2d) {
         BufferedImage img = Table.getDungeon().getLast().getFacingSide();
-        img = rotateImageByDegrees(img, 90);
         g2d.drawImage(img, pos.getDungeonX(), pos.getDungeonY(), CARD_WIDTH, CARD_HEIGHT, this);
     }
 
     private void drawLeftRoom(Graphics2D g2d) {
         BufferedImage img = Table.getLeftRoom().getFacingSide();
-        img = rotateImageByDegrees(img, 90);
         g2d.drawImage(img, pos.getLeftRoomX(), pos.getLeftRoomY(), CARD_WIDTH, CARD_HEIGHT, this);
     }
 
     private void drawRightRoom(Graphics2D g2d) {
         BufferedImage img = Table.getRightRoom().getFacingSide();
-        img = rotateImageByDegrees(img, 90);
         g2d.drawImage(img, pos.getRightRoomX(), pos.getRightRoomY(), CARD_WIDTH, CARD_HEIGHT, this);
     }
 
@@ -295,7 +296,6 @@ public class Window extends JFrame {
         LinkedList<Card> cards = Table.getAllCards();
         for (Card c : cards) {
             BufferedImage img = c.getFacingSide();
-            img = rotateImageByDegrees(img, 90);
             g2d.drawImage(img, x, y, CARD_WIDTH, CARD_HEIGHT, this);
             x += CARD_WIDTH + 5;
             if (x > getWidth() - CARD_WIDTH) {
@@ -305,6 +305,7 @@ public class Window extends JFrame {
         }
     }
 
+    @Deprecated
     public BufferedImage rotateImageByDegrees(BufferedImage img, double angle) {
         if(FileManager.isNoFlip()) return img;
         double rads = Math.toRadians(angle);
@@ -335,12 +336,10 @@ public class Window extends JFrame {
 
     public void setMouseListener(MouseWindowHandler mouse) {
         addMouseListener(mouse);
-        this.mouse = mouse;
     }
 
     public void setKeyListener(MainKeyListener keys) {
         addKeyListener(keys);
-        this.keys = keys;
     }
 
     public int getFrameSizeX() {
@@ -349,6 +348,10 @@ public class Window extends JFrame {
 
     public int getFrameSizeY() {
         return FRAME_SIZE_Y;
+    }
+
+    public static void setHeightRatio(double heightRatio) {
+        HEIGHT_RATIO = heightRatio;
     }
 
     public int getCardHeight() {

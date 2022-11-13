@@ -1,8 +1,8 @@
 package de.cardgame.Zones;
 
 import de.cardgame.Card;
+import de.cardgame.Suit;
 import de.cardgame.Table;
-import de.cardgame.Window.FieldPositions;
 import de.cardgame.Window.Window;
 
 public class Souls extends Zone<Card> {
@@ -16,6 +16,7 @@ public class Souls extends Zone<Card> {
 
     public static void takeNew() {
         if (Table.getSouls().add(Table.getActiveRoom().getLast())) Table.getActiveRoom().removeLast();
+        Table.getSouls().getLast().changeSUIT(Suit.SOULS);
     }
 
     public static boolean heal(int soulsIndex) {
